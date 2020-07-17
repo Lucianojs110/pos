@@ -8,6 +8,7 @@ use App\Role;
 use App\User;
 use Illuminate\Http\Request;
 
+
 class UserController extends Controller
 {
     /**
@@ -20,9 +21,13 @@ class UserController extends Controller
     {
         $this->middleware('auth');
     }
+
+   
     
-     public function index()
+     public function index(Request $request)
     {
+        $request->user()->authorizeRoles(['administrador']);
+        
         $users = User::all();
       
         return view('usuarios.index', ['users'=>$users]);
@@ -33,10 +38,10 @@ class UserController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-       $roles = Role::all();
-
+        $request->user()->authorizeRoles(['administrador']);
+        $roles = Role::all();
         return view ('usuarios.create', ['roles'=>$roles]);
     }
 
@@ -70,8 +75,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
+        $request->user()->authorizeRoles(['administrador']);
         return view ('usuarios.show', ['user'=>User::findorFail($id)]);
     }
 
@@ -81,8 +87,9 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit($id,  Request $request)
     {
+        $request->user()->authorizeRoles(['administrador']);
         $user = User::findOrFail($id);
         
         $roles = Role::all();
