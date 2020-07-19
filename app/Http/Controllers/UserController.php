@@ -7,6 +7,7 @@ use App\Http\Requests\UserFormRequest;
 use App\Role;
 use App\User;
 use Illuminate\Http\Request;
+use DataTables;
 
 
 class UserController extends Controller
@@ -26,11 +27,34 @@ class UserController extends Controller
     
      public function index(Request $request)
     {
-        $request->user()->authorizeRoles(['administrador']);
+        //$request->user()->authorizeRoles(['administrador']);
         
-        $users = User::all();
-      
-        return view('usuarios.index', ['users'=>$users]);
+
+        if ($request->ajax()) {
+            $users = User::all();
+
+            return DataTables::of($users)
+                ->addColumn('rol', function($user){
+                    foreach ($user->roles as $role){
+                        return $role->name;
+                    }
+                })
+                ->addColumn('imagen', function($user){
+                    if (empty($user->imagen)){
+                        return '';
+                    }
+                    return '<img src="imagenes/'.$user->imagen.'" height="40px" width="40px">';
+                    
+                })
+                ->addColumn('action', 'usuarios.actions')
+                ->rawColumns(['imagen', 'action'])
+                ->make(true);
+
+        }
+
+        return view('usuarios.index');
+
+        
     }
 
     /**
