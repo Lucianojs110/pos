@@ -19,4 +19,6 @@ Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
 
-Route::resource('usuarios', 'UserController')->middleware('auth');
+Route::resource('usuarios', 'UserController');
+Route::resource('categoria', 'CategoriaController');
+Route::resource('articulo', 'ArticuloController');

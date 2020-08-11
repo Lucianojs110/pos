@@ -27,9 +27,8 @@ class UserController extends Controller
     
      public function index(Request $request)
     {
-        //$request->user()->authorizeRoles(['administrador']);
         
-
+        
         if ($request->ajax()) {
             $users = User::all();
 
@@ -111,7 +110,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id,  Request $request)
+   public function edit($id,  Request $request)
     {
         $request->user()->authorizeRoles(['administrador']);
         $user = User::findOrFail($id);
