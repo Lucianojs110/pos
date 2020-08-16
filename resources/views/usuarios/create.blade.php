@@ -15,7 +15,7 @@
         @endif
       </div>
 </div>
-
+     <div class="container p-3 my-3 border" style="background-color: #fff">   
     <h2>Crear nuevo usuario </h2>
 
     <form action="/usuarios" method="POST" enctype="multipart/form-data">
@@ -72,4 +72,6 @@
 </form>
 
 </div>
+</div>
+
 @endsection

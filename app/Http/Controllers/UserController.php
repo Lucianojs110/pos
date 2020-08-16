@@ -28,7 +28,7 @@ class UserController extends Controller
      public function index(Request $request)
     {
         
-        
+        $request->user()->authorizeRoles(['administrador']);
         if ($request->ajax()) {
             $users = User::all();
 

@@ -8,14 +8,14 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>AdminLTE 3</title>
+    <title>easyPOS</title>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
     <script src="https:////cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"defer></script>
     <script src="{{ asset('dist/js/adminlte.js') }}"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
 
@@ -27,6 +27,9 @@
     <link href="{{ asset('dist/css/adminlte.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+   
+    
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -63,19 +66,22 @@
                     </li>
                     <!-- Notifications Dropdown Menu -->
                     <li class="nav-item dropdown">
-                       
+                    <a class="btn btn-outline-dark"  href="{{ route('logout') }}" onclick="event.preventDefault();
+                         document.getElementById('logout-form').submit();">
+                         Salir
+                    </a>
                     </li>
                 </ul>
             </nav>
             <!-- /.navbar -->
 
             <!-- Main Sidebar Container -->
-            <aside class="main-sidebar sidebar-dark-primary elevation-4">
+            <aside class="main-sidebar sidebar-dark-primary elevation-6">
                 <!-- Brand Logo -->
                 <a href="{{ url('/') }}" class="brand-link">
-                    <img src="{{asset('dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3"
+                    <img src="{{asset('dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image "
                         style="opacity: .8">
-                    <span class="brand-text font-weight-light">easyPOS</span>
+                    <span class="brand-text font-weight-light">easy<b style="color:#48b1c0">POS</b></span>
                 </a>
 
                 <!-- Sidebar -->
@@ -93,12 +99,10 @@
                                <img  src="{{asset('imagenes/'.Auth::user()->imagen)}}" class="img-circle elevation-2" alt="User Image">
                                 
                                 </div>
-
+                                
                                 {{ Auth::user()->name }}
-                                <a class="dropdown-item" style=color:white href="{{ route('logout') }}" onclick="event.preventDefault();
-                                           document.getElementById('logout-form').submit();">
-                                   Cerrar Sesión
-                                </a>
+                                
+                               
 
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                     style="display: none;">
@@ -154,9 +158,52 @@
                                             <p>Artículos</p>
                                         </a>
                                     </li>
-                                  
                                 </ul>
-                            </li>
+                             </li>
+                             <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-cart-arrow-down"></i>
+                                    <p>Ventas<i class="fas fa-angle-left right"></i></p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                    <a href="{{url('cliente')}}"
+                                            class="{{ Request::path() === 'cliente' ? 'nav-link active' : 'nav-link' }}">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Clientes</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                    <a href="{{url('ventas')}}"
+                                            class="{{ Request::path() === 'venta' ? 'nav-link active' : 'nav-link' }}">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Ventas</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                             </li>
+                             <li class="nav-item has-treeview">
+                                <a href="#" class="nav-link">
+                                    <i class="nav-icon fas fa-clipboard-list"></i>
+                                    <p>Compras<i class="fas fa-angle-left right"></i></p>
+                                </a>
+                                <ul class="nav nav-treeview">
+                                    <li class="nav-item">
+                                    <a href="{{url('proveedor')}}"
+                                            class="{{ Request::path() === 'proveedor' ? 'nav-link active' : 'nav-link' }}">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Provedores</p>
+                                        </a>
+                                    </li>
+                                    <li class="nav-item">
+                                    <a href="{{url('ingreso')}}"
+                                            class="{{ Request::path() === 'ingreso' ? 'nav-link active' : 'nav-link' }}">
+                                            <i class="far fa-circle nav-icon"></i>
+                                            <p>Ingresos</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                             </li>
 
                         </ul>
                     </nav>

@@ -22,3 +22,6 @@ Route::get('/', 'HomeController@index')->name('home');
 Route::resource('usuarios', 'UserController');
 Route::resource('categoria', 'CategoriaController');
 Route::resource('articulo', 'ArticuloController');
+Route::resource('cliente', 'ClienteController');
+Route::resource('proveedor', 'ProveedorController');
+Route::resource('ingreso', 'IngresoController');

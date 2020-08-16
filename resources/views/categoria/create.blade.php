@@ -15,7 +15,7 @@
         @endif
       </div>
 </div>
-
+    <div class="container p-3 my-3 border" style="background-color: #fff"> 
     <h2>Crear nueva categoría </h2>
 
     <form action="/categoria" method="POST" enctype="multipart/form-data">
@@ -38,7 +38,9 @@
  
   <button type="submit" class="btn btn-primary">Guardar</button>
   <button type="reset" class="btn btn-danger">Cancelar</button>
+  <a href="{{url('categoria')}}" class="btn btn-secondary">Volver</a>
 </form>
 
+</div>
 </div>
 @endsection

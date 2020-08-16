@@ -17,19 +17,42 @@
 </div>
 
     <div class="container p-3 my-3 border" style="background-color: #fff">
-    <h2>Crear nuevo Articulo </h2>
-    <form action="/articulo" method="POST" enctype="multipart/form-data">
+   
+
+ 
+
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-4" style="margin-top: auto; margin-bottom:auto; margin-left:0px; padding-left:0px">
+    <h2>Editar Articulo: <br>
+    {{$articulo->nombre}} </h2>
+    </div>
+    <div class="col-2" >
+    @if($articulo->imagen != "")
+    <img src="{{asset('imagenes/articulos/'.$articulo->imagen)}}" alt="{{$articulo->imagen}}" height="100%" width="100%">
+    @endif
+    </div>
+    <div class="col-4">
+    </div>
+  </div>
+</div>
+
+
+<form action="{{ route('articulo.update', $articulo->id) }}" method="POST" enctype="multipart/form-data">
+   @method('PATCH')
     @csrf
     
     
     <div class="row">
     <div class="form-group col-md-6">
     <label for="nombre">Nombre del Artículo</label>
-    <input type="text" class="form-control" name="nombre" placeholder="escribe el nombre del artículo">
+    <input type="text" class="form-control" name="nombre" value="{{$articulo->nombre}}" placeholder="escribe el nombre del artículo">
     </div>
     <div class="form-group col-md-6">
     <label for="email">Codigo</label>
-    <input type="text" class="form-control" name="codigo" placeholder="escribe el codigo del artículo">
+    <input type="text" class="form-control" name="codigo" value="{{$articulo->codigo}}" placeholder="escribe el codigo del artículo">
     </div>
     </div>
  
@@ -37,11 +60,11 @@
     <div class="row">
     <div class="form-group col-md-6">
     <label for="email">Descripción</label>
-    <input type="text" class="form-control" name="descripcion" placeholder="escribe la descripcion del artículo">
+    <input type="text" class="form-control" name="descripcion" value="{{$articulo->descripcion}}" placeholder="escribe la descripcion del artículo">
     </div>
     <div class="form-group col-md-6">
     <label for="email">Stock</label>
-    <input type="number" class="form-control" name="stock" placeholder="escribe el stock inicial">
+    <input type="number" class="form-control" name="stock" value="{{$articulo->stock}}" placeholder="escribe el stock inicial">
     </div>
     </div>
  
@@ -54,7 +77,12 @@
     <select name="idcategoria" class="form-control">
     <option selected disabled>Elige una categoría para el artículo..</option>
      @foreach($categoria as $categorias)
-     <option value='{{$categorias->id}}'>{{$categorias->nombre}}</option> 
+       @if($categorias->id==$articulo->idcategoria)
+          <option value='{{$categorias->id}}'selected>{{$categorias->nombre}}</option> 
+        @else
+           <option value='{{$categorias->id}}'>{{$categorias->nombre}}</option> 
+        @endif   
+
      @endforeach
      </select>
     </div>

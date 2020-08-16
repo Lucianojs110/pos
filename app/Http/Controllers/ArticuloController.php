@@ -47,7 +47,7 @@ class ArticuloController extends Controller
     public function edit($id,  Request $request)
     {
         $articulo=Articulo::findOrFail($id);
-        $categorias=DB::table('categoria')->where('condicion','=','1')->get();
+        $categoria=DB::table('categoria')->where('condicion','=','1')->get();
         return view ('articulo.edit', ['articulo' => $articulo, 'categoria' => $categoria]);
     }
 
@@ -60,6 +60,11 @@ class ArticuloController extends Controller
        $articulo->stock = request('stock');
        $articulo->descripcion = request('descripcion');
        $articulo->estado = 'activo';
+       if ($request->hasFile('imagen')){
+        $file = $request->imagen;
+        $file->move(public_path().'/imagenes/articulos', $file->getClientOriginalName());
+        $articulo->imagen = $file->getClientOriginalName();
+        }
        $articulo->update();
 
        return redirect('articulo');
@@ -103,7 +108,9 @@ class ArticuloController extends Controller
     public function show($id, Request $request)
     {
      
-        return view ('articulo.show', ['articulo' => Articulo::findOrFail($id)]);
+        $articulo=Articulo::findOrFail($id);
+        $categoria=DB::table('categoria')->where('condicion','=','1')->get();
+        return view ('articulo.edit', ['articulo' => $articulo, 'categoria' => $categoria]);
       
     }
 }
