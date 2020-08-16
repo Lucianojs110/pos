@@ -70,7 +70,8 @@
                        </select>
 
                       
-</select>
+                       
+
 
                 </div>
             </div>
@@ -88,6 +89,11 @@
    
     </form>
 
- 
+ <script>
+          $.fn.selectpicker.Constructor.BootstrapVersion = '4';
+          $('select').selectpicker();
+
+
+ </script>
 
     @endsection
