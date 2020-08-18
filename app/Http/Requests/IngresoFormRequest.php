@@ -28,9 +28,16 @@ class IngresoFormRequest extends FormRequest
             'tipo_comprobante' =>  'required|max:20',
             'num_comprobante' =>  'required|max:20',
             'idarticulo' =>  'required',
-            'cantidad' =>  'required',
-            'precio_compra' =>  'required',
-            'precio_venta' =>  'required',
+           
         ];
     }
+
+    public function messages()
+{
+    return [
+        'idarticulo.required' => 'Selecciona una articulo.',
+        'idproveedor.required' => 'Selecciona un Proveedor',
+        'num_comprobante.required' => 'Escribe el numero de comprobante',
+    ];
+}
 }
