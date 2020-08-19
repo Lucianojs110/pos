@@ -25,3 +25,4 @@ Route::resource('articulo', 'ArticuloController');
 Route::resource('cliente', 'ClienteController');
 Route::resource('proveedor', 'ProveedorController');
 Route::resource('ingreso', 'IngresoController');
+Route::resource('venta', 'VentaController');

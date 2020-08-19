@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\ArticuloFormRequest;
 use Illuminate\Support\Facades\DB;
 use DataTables;
+use Session;
 
 class ArticuloController extends Controller
 {
@@ -66,7 +67,7 @@ class ArticuloController extends Controller
         $articulo->imagen = $file->getClientOriginalName();
         }
        $articulo->update();
-
+       Session::flash('success', 'Producto Actualizado');
        return redirect('articulo');
     }
 
@@ -87,8 +88,12 @@ class ArticuloController extends Controller
         }
        
         $articulo->save();
-
+        
+        Session::flash('success', 'Producto Agregado');
+        
         return redirect('articulo');
+
+        
     }
 
     public function destroy($id)
@@ -96,12 +101,14 @@ class ArticuloController extends Controller
         $articulo = Articulo::FindOrFail($id);
         $articulo->estado='Inactivo';
         $articulo->update();
+        Session::flash('success', 'Producto Eliminado');
         return redirect('/articulo');
     }
 
     public function create(Request $request)
     {
         $categoria = Categoria::all();
+        Session::flash('success', 'Producto creado con exito');
         return view ('articulo.create', ['categoria'=>$categoria]);
     }
 

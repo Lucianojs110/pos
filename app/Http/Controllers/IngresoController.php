@@ -9,6 +9,7 @@ use App\Http\Requests\IngresoFormRequest;
 use Illuminate\Support\Facades\DB;
 use DataTables;
 use Carbon\Carbon;
+use Session;
 
 
 class IngresoController extends Controller
@@ -46,7 +47,7 @@ class IngresoController extends Controller
         ->select(DB::raw('CONCAT(art.codigo, " ",art.nombre) AS articulo'), 'art.id')
         ->where('art.estado','=','activo')
         ->get();
-       
+        
         return view ('ingreso.create', ["personas"=>$personas, "articulos"=>$articulos]);
     }
 
@@ -92,7 +93,7 @@ class IngresoController extends Controller
             DB::rollback();
        }
        
-    
+       Session::flash('success', 'Ingreso Agregado');
         return redirect('ingreso');
     }
 
@@ -124,6 +125,7 @@ class IngresoController extends Controller
         $ingreso= Ingreso::FindOrFail($id);
         $ingreso->estado='Cancelado';
         $ingreso->update();
+        Session::flash('success', 'Ingreso Cancelado');
         return redirect('/ingreso');
     }
 

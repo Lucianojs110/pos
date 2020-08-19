@@ -17,8 +17,7 @@
     <script src="https:////cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"defer></script>
     <script src="{{ asset('dist/js/adminlte.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.7/dist/js/bootstrap-select.min.js"></script>
-    
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
 
    
     <!-- Font Awesome Icons -->
@@ -29,7 +28,7 @@
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
     <!-- Styles -->
-  
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
     <link href="{{ asset('dist/css/adminlte.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
@@ -178,7 +177,7 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                    <a href="{{url('ventas')}}"
+                                    <a href="{{url('venta')}}"
                                             class="{{ Request::path() === 'venta' ? 'nav-link active' : 'nav-link' }}">
                                             <i class="far fa-circle nav-icon"></i>
                                             <p>Ventas</p>
@@ -249,3 +248,13 @@
 </body>
 
 </html>
+
+<script>
+  @if(Session::has('success'))
+   
+  toastr.options.progressBar = true;
+  toastr.options.positionClass = "toast-bottom-right";
+      toastr.success("{{Session::get('success')}}")
+  @endif
+ 
+</script>

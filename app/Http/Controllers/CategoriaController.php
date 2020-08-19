@@ -6,6 +6,7 @@ use App\Categoria;
 use Illuminate\Http\Request;
 use App\Http\Requests\CategoriaFormRequest;
 use DataTables;
+use Session;
 
 class CategoriaController extends Controller
 {

@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Http\Requests\PersonaFormRequest;
 use Illuminate\Support\Facades\DB;
 use DataTables;
+use Session;
 
 class ProveedorController extends Controller
 {

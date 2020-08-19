@@ -17,8 +17,8 @@
 </div>
 
     <div class="container p-3 my-3 border" style="background-color: #fff">
-    <h2>Nuevo Ingreso </h2>
-    <form action="/ingreso" method="POST" enctype="multipart/form-data">
+    <h2>Nueva Venta </h2>
+    <form action="/venta" method="POST" enctype="multipart/form-data">
     @csrf
     
     
@@ -27,9 +27,9 @@
    
 
         <div class="form-group col-md-6">
-              <label for="nombre">Proveedor</label>
-              <select name="idproveedor" id="idproveedor" class="form-control selectpicker" data-live-search="true">
-              <option selected disabled>Elige un proveedor</option>
+              <label for="nombre">Cliente</label>
+              <select name="idcliente" id="idcliente" class="form-control selectpicker" data-live-search="true">
+              <option selected disabled>Elige un cliente</option>
                 @foreach($personas as $persona)
               <option value='{{$persona->id}}'>{{$persona->nombre}}</option> 
                 @endforeach
@@ -47,7 +47,7 @@
             </div>
             <div class="form-group col-md-3">
                   <label>Número Comprobante</label>
-                  <input type="text" class="form-control" name="num_comprobante" placeholder="escribe el numero de comprobante">
+                  <input type="text" disabled class="form-control" name="num_comprobante" placeholder="00000255">
             </div>
 
          
@@ -55,12 +55,12 @@
    
         <div class="container p-3 my-3 border" style="background-color: #fff">
     <div class="row">      
-                   <div class="col col-lg-4">
+                   <div class="col col-lg-3">
                    <label for="nombre">Articulo</label>
                        <select name="pidarticulo" id="pidarticulo" class="form-control selectpicker" data-live-search="true">
                             <option selected disabled>Elige un articulo</option>
-                             @foreach($articulos as $articulos)
-                            <option value='{{$articulos->id}}'>{{$articulos->articulo}}</option> 
+                             @foreach($articulos as $articulo)
+                            <option value="{{$articulo->id}}_{{$articulo->stock}}_{{$articulo->precioarticulo}}">{{$articulo->articulo}}</option> 
                             @endforeach
                        </select>
                    </div>
@@ -69,15 +69,19 @@
                         <input type="number" class="form-control" id="pcantidad" name="cantidad" placeholder="cantidad">
                   </div>
                   <div class="col col-lg-2"> 
-                        <label>Precio Compra</label>
-                        <input type="number" class="form-control" id="pprecio_compra" name="precio_compra" placeholder="P. compra">
+                        <label>stock</label>
+                        <input type="number" disabled class="form-control" id="pstock" name="pstock" placeholder="stock">
                   </div>
                   <div class="col col-lg-2"> 
                         <label>Precio venta</label>
-                        <input type="number" class="form-control" id="pprecio_venta" name="precio_venta" placeholder="P. venta">
+                        <input type="number" class="form-control" id="pprecio_venta" name="pprecio_venta" placeholder="P. venta">
                   </div>
-                  <div class="col col-lg-2" style="margin-top:auto"> 
-                  <button type="button" id="bt-add" class="btn btn-primary">Agregar</button>
+                  <div class="col col-lg-2"> 
+                        <label>Descuento</label>
+                        <input type="number" class="form-control" id="pdescuento" name="stock" placeholder="descuento">
+                  </div>
+                  <div class="col col-lg-1" style="margin-top:auto"> 
+                  <button type="button" id="bt-add" class="btn btn-primary">+</button>
                   </div>
         </div>    
         <br>       
@@ -87,10 +91,10 @@
            <thead class="thead-dark">
              <tr>
              <th>Eliminar</th>
-             <th>Articulos</th>
+             <th>Articulo</th>
              <th>Cantidad</th>
-             <th>P. compra</th>
              <th>P. venta</th>
+             <th>Descuento</th>
              <th>Subtotal</th>
              </tr>
            </thead>
@@ -104,7 +108,7 @@
              <th></th>
              <th></th>
              <th></th>
-             <th><h4 id="total">$0.00</h4></th>
+             <th><h4 id="total">$0.00</h4><input type="hidden" name="total_venta" id="total_venta"></th>
              </tr>
           </tfoot>
          </table>
@@ -134,36 +138,56 @@
             agregar();
             
           });
-          $("#guardar").hide();
+
+          $('#guardar').hide();
+          $("#pidarticulo").change(mostrarValores);
     });
 
        total=0;
       var cont=0;
       subtotal=[];
-      
+     
+
+      function mostrarValores()
+      {
+        datosArticulos= document.getElementById('pidarticulo').value.split('_');
+        $("#pprecio_venta").val(datosArticulos[2]);
+        $("#pstock").val(datosArticulos[1]);
+
+      }
 
     function agregar(){
-          idarticulo= $("#pidarticulo").val();
+
+           datosArticulos= document.getElementById('pidarticulo').value.split('_');
+          idarticulo= datosArticulos[0];
           articulo= $("#pidarticulo option:selected").text();
           cantidad= $("#pcantidad").val();
-          precio_compra= $("#pprecio_compra").val();
+          descuento= $("#pdescuento").val();
           precio_venta= $("#pprecio_venta").val();
+          stock= $("#pstock").val();
           
-          if (idarticulo!="" && idarticulo!=0 && cantidad!="" && cantidad>0 && precio_compra!="" && precio_venta!="" )
+          if (idarticulo!="" && idarticulo!=0 && cantidad!="" && cantidad>0 && descuento!="" && precio_venta!="" )
           {
-              subtotal[cont]=(cantidad*precio_compra);
+             if(stock>cantidad){
+              subtotal[cont]=(cantidad*precio_venta-descuento);
               subtotal[cont] = +subtotal[cont].toFixed(2);
               total=total+subtotal[cont];
                total = +total.toFixed(2);
-              var fila = '<tr class="selected" id="fila'+cont+'"><td><button type="button" class="btn btn-danger" onclick="eliminar('+cont+');">X</button></td><td><input type="hidden" name="idarticulo[]" value="'+idarticulo+'">'+articulo+'</td><td><input type="hidden" name="cantidad[]" value="'+cantidad+'">'+cantidad+'</td><td><input type="hidden" name="precio_compra[]" value="'+precio_compra+'">$'+precio_compra+'</td><td><input type="hidden" name="precio_venta[]" value="'+precio_venta+'">$'+precio_venta+'</td><td>$'+subtotal[cont]+'</td></tr>';
+              var fila = '<tr class="selected" id="fila'+cont+'"><td><button type="button" class="btn btn-danger" onclick="eliminar('+cont+');">X</button></td><td><input type="hidden" name="idarticulo[]" value="'+idarticulo+'">'+articulo+'</td><td><input type="hidden" name="cantidad[]" value="'+cantidad+'">'+cantidad+'</td><td><input type="hidden" name="precio_venta[]" value="'+precio_venta+'">$'+precio_venta+'</td><td><input type="hidden" name="descuento[]" value="'+descuento+'">$'+descuento+'</td><td>$'+subtotal[cont]+'</td></tr>';
               cont++;
               limpiar();
               $("#total").html("$"+total);
+              $("#total_venta").val(total);
               evaluar();
               $('#detalle').append(fila);
+              }else
+              {
+                alert("La cantidad a vender supera al stock actual")
+
+              }
           }else
           {
-             alert("complete todos los campos")
+             alert("Complete todos los campos")
           }
 
      }
@@ -171,9 +195,10 @@
 
       function limpiar(){
          
+           $("#pdescuento").val("");
            $("#pcantidad").val("");
-           $("#pprecio_compra").val("");
            $("#pprecio_venta").val("");
+           $("#pstock").val("");
 
      }
      function evaluar(){
