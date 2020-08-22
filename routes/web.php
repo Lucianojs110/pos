@@ -26,3 +26,8 @@ Route::resource('cliente', 'ClienteController');
 Route::resource('proveedor', 'ProveedorController');
 Route::resource('ingreso', 'IngresoController');
 Route::resource('venta', 'VentaController');
+Route::resource('DatosTienda', 'DatosTiendaController');
+
+Route::post('/update', 'DatosTiendaController@update')->name('update');
+Route::post('/updatelogo', 'DatosTiendaController@updatelogo')->name('updatelogo');
+

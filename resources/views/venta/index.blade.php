@@ -27,6 +27,7 @@
 	
 
 $(document).ready(function() {
+    
     $('#data-table').DataTable( {
       
         "processing": true,
@@ -34,7 +35,7 @@ $(document).ready(function() {
         "ajax": "{{ route('venta.index')}}",
         "columns": [
             {data: 'id', name: 'venta.id'},
-            {data: 'fecha', name: 'venta.fecha'},
+            {data: 'fecha', name: 'venta.fecha', type: 'date-dd-mmm-yyyy', targets: 0},
             {data: 'nombre', name: 'persona.nombre'},
             {data: 'tipo_comprobante', name: 'venta.tipo_comprobante'},
             {data: 'num_comprobante', name: 'venta.num_comprobante'},
@@ -44,8 +45,12 @@ $(document).ready(function() {
           
         ],
 
+        columnDefs:[{targets:1, render:function(data){
+         return moment(data).format('D-M-YYYY');
+         }}],
+
         'rowCallback': function(row, data, index){
-    if(data['estado']== 'Activo'){
+         if(data['estado']== 'Activo'){
         $(row).find('td:eq(6)').css('color', '#4ED020');
         $(row).find('td:eq(6)').css('font-family', 'Impact');
      

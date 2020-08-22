@@ -42,7 +42,7 @@ class CategoriaController extends Controller
        $categoria->nombre = request('nombre');
        $categoria->descripcion = request('descripcion');
        $categoria->update();
-
+       Session::flash('success', 'Categoria Actualizada con exito');
        return redirect('categoria');
     }
 
@@ -55,7 +55,7 @@ class CategoriaController extends Controller
         $categoria->condicion = 1;
        
         $categoria->save();
-
+        Session::flash('success', 'Categoria Creada con exito');
         return redirect('categoria');
     }
 

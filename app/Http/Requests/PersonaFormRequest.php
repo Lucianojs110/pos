@@ -32,4 +32,11 @@ class PersonaFormRequest extends FormRequest
             'email' =>  'max:50',
         ];
     }
+    public function messages()
+    {
+        return [
+            'num_documento.required' => 'El campo numero de documento es obligatorio.',
+          
+        ];
+    }
 }

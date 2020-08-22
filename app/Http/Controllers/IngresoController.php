@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Ingreso;
 use App\DetalleIngreso;
+use App\Articulo;
 use App\Http\Requests\IngresoFormRequest;
 use Illuminate\Support\Facades\DB;
 use DataTables;
@@ -83,6 +84,12 @@ class IngresoController extends Controller
               $detalle->precio_compra = $precio_compra[$cont];
               $detalle->precio_venta = $precio_venta[$cont];
               $detalle->save();
+              
+              $id = $idarticulo[$cont];
+              $articulo= Articulo::findOrFail($id);
+              $articulo->precio_venta = $precio_venta[$cont];
+              $articulo->update();
+              
               $cont=$cont+1;
 
            }

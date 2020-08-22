@@ -24,4 +24,5 @@ class Venta extends Model
 
       
     ];
+
 }

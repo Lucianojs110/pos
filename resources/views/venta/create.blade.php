@@ -1,20 +1,18 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-sm-6">
-        @if ($errors->any())
-          <div class='alert alert-danger'>
-          <ul>
-            @foreach ($errors->all() as $error)
-              <li>{{$error}}</li>
-              @endforeach
-          </ul>
-        </div>
-        @endif
-      </div>
+@if(count($errors) > 0 )
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <ul class="p-0 m-0" style="list-style: none;">
+        @foreach($errors->all() as $error)
+        <li>{{$error}}</li>
+        @endforeach
+    </ul>
 </div>
+@endif
 
     <div class="container p-3 my-3 border" style="background-color: #fff">
     <h2>Nueva Venta </h2>
@@ -60,7 +58,7 @@
                        <select name="pidarticulo" id="pidarticulo" class="form-control selectpicker" data-live-search="true">
                             <option selected disabled>Elige un articulo</option>
                              @foreach($articulos as $articulo)
-                            <option value="{{$articulo->id}}_{{$articulo->stock}}_{{$articulo->precioarticulo}}">{{$articulo->articulo}}</option> 
+                            <option value="{{$articulo->id}}_{{$articulo->stock}}_{{$articulo->precio_venta}}">{{$articulo->articulo}}</option> 
                             @endforeach
                        </select>
                    </div>
@@ -131,7 +129,7 @@
     </script>
     @push('scripts')
     <script>
-      
+    
     
     $(document).ready(function(){
           $("#bt-add").click(function(){
@@ -173,7 +171,7 @@
               subtotal[cont] = +subtotal[cont].toFixed(2);
               total=total+subtotal[cont];
                total = +total.toFixed(2);
-              var fila = '<tr class="selected" id="fila'+cont+'"><td><button type="button" class="btn btn-danger" onclick="eliminar('+cont+');">X</button></td><td><input type="hidden" name="idarticulo[]" value="'+idarticulo+'">'+articulo+'</td><td><input type="hidden" name="cantidad[]" value="'+cantidad+'">'+cantidad+'</td><td><input type="hidden" name="precio_venta[]" value="'+precio_venta+'">$'+precio_venta+'</td><td><input type="hidden" name="descuento[]" value="'+descuento+'">$'+descuento+'</td><td>$'+subtotal[cont]+'</td></tr>';
+              var fila = '<tr class="selected" id="fila'+cont+'"><td><button type="button" class="btn-sm btn-danger" onclick="eliminar('+cont+');">X</button></td><td><input type="hidden" name="idarticulo[]" value="'+idarticulo+'">'+articulo+'</td><td><input type="hidden" name="cantidad[]" value="'+cantidad+'">'+cantidad+'</td><td><input type="hidden" name="precio_venta[]" value="'+precio_venta+'">$'+precio_venta+'</td><td><input type="hidden" name="descuento[]" value="'+descuento+'">$'+descuento+'</td><td>$'+subtotal[cont]+'</td></tr>';
               cont++;
               limpiar();
               $("#total").html("$"+total);
@@ -182,12 +180,13 @@
               $('#detalle').append(fila);
               }else
               {
-                alert("La cantidad a vender supera al stock actual")
-
+                toastr.options.positionClass = "toast-bottom-right";
+                toastr.warning("La cantidad a vender supera al stock actual")
               }
           }else
           {
-             alert("Complete todos los campos")
+            toastr.options.positionClass = "toast-bottom-right";
+            toastr.warning("Ingrese un valor de cantidad y descuento")
           }
 
      }
@@ -216,7 +215,7 @@
           evaluar();
 
      }
-
+     
     </script>
     @endpush
     @endsection

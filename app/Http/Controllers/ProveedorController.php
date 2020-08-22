@@ -53,7 +53,7 @@ class ProveedorController extends Controller
         $personas->email = request('email');
              
         $personas->save();
-
+        Session::flash('success', 'Proveedor Agregado con exito');
         return redirect('proveedor');
     }
 
@@ -75,7 +75,7 @@ class ProveedorController extends Controller
         $personas->email = request('email');
              
         $personas->update();
-
+        Session::flash('success', 'Proveedor Actualizado con exito');
        return redirect('proveedor');
     }
 

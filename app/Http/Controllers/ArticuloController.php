@@ -108,7 +108,7 @@ class ArticuloController extends Controller
     public function create(Request $request)
     {
         $categoria = Categoria::all();
-        Session::flash('success', 'Producto creado con exito');
+
         return view ('articulo.create', ['categoria'=>$categoria]);
     }
 
@@ -117,7 +117,7 @@ class ArticuloController extends Controller
      
         $articulo=Articulo::findOrFail($id);
         $categoria=DB::table('categoria')->where('condicion','=','1')->get();
-        return view ('articulo.edit', ['articulo' => $articulo, 'categoria' => $categoria]);
+        return view ('articulo.show', ['articulo' => $articulo, 'categoria' => $categoria]);
       
     }
 }

@@ -44,6 +44,10 @@ $(document).ready(function() {
           
         ],
 
+        columnDefs:[{targets:1, render:function(data){
+         return moment(data).format('D-M-YYYY');
+         }}],
+
         'rowCallback': function(row, data, index){
     if(data['estado']== 'Activo'){
         $(row).find('td:eq(6)').css('color', '#4ED020');

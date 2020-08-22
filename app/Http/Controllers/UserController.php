@@ -89,6 +89,7 @@ class UserController extends Controller
         $usuario->save();
 
         $usuario->asignarRol($request->get('rol'));
+        Session::flash('success', 'Usuario Agregado con exito');
         return redirect('/usuarios');
 
     }
@@ -117,7 +118,6 @@ class UserController extends Controller
         $user = User::findOrFail($id);
         
         $roles = Role::all();
-
         return view ('usuarios.edit', ['user'=>$user, 'roles'=>$roles]);
     }
 
@@ -158,7 +158,7 @@ class UserController extends Controller
         }
 
         $usuario->update();
-
+        Session::flash('success', 'Usuario actualizado con exito');
         return redirect('/usuarios');
     }
 

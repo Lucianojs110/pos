@@ -25,7 +25,7 @@ class CategoriaFormRequest extends FormRequest
     {
         return [
             'nombre' =>  'required|max:50',
-            'descripcion' =>  'required|max:256',
+            'descripcion' =>  'required|max:256:tags,descripcion'. $this->tag,
         ];
     }
 }

@@ -18,7 +18,8 @@
     <script src="{{ asset('dist/js/adminlte.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.7/dist/js/bootstrap-select.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
+    
    
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
@@ -256,5 +257,11 @@
   toastr.options.positionClass = "toast-bottom-right";
       toastr.success("{{Session::get('success')}}")
   @endif
+  @if(Session::has('warning'))
+   
+   toastr.options.progressBar = true;
+   toastr.options.positionClass = "toast-bottom-right";
+       toastr.success("{{Session::get('warning')}}")
+   @endif
  
 </script>

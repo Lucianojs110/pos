@@ -53,7 +53,7 @@ class ClienteController extends Controller
         $personas->email = request('email');
              
         $personas->save();
-
+        Session::flash('success', 'Cliente Creado con exito');
         return redirect('cliente');
     }
 
@@ -75,7 +75,7 @@ class ClienteController extends Controller
         $personas->email = request('email');
              
         $personas->update();
-
+        Session::flash('success', 'Cliente Actualizado con exito');
        return redirect('cliente');
     }
 

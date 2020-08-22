@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Venta;
+use App\Articulo;
 use App\DetalleVenta;
 use App\Http\Requests\VentaFormRequest;
 use Illuminate\Support\Facades\DB;
@@ -43,16 +44,17 @@ class VentaController extends Controller
 
     public function create(Request $request)
     {
-        $personas=DB::table('Persona')->where('tipo_persona','=','cliente')->get();
-        $articulos=DB::table('articulo as art')
-        ->join('detalle_ingreso as di','art.id','=', 'di.idarticulo')
-        ->select(DB::raw('CONCAT(art.codigo, " ",art.nombre) AS articulo'), 'art.id', 'art.stock',
-        DB::raw('max(di.precio_venta) as precioarticulo'))
-        ->where('art.estado','=','activo')
-        ->where('art.stock','>','0')
-        ->groupBy('articulo', 'art.id', 'art.stock')
-        ->get();
-        
+       $personas=DB::table('Persona')->where('tipo_persona','=','cliente')->get();
+       
+       $articulos=DB::table('articulo as art')
+       ->join('detalle_ingreso as di','art.id','=', 'di.idarticulo')
+       ->select(DB::raw('CONCAT(art.codigo, " ",art.nombre) AS articulo'), 'art.id', 'art.stock',
+      'art.precio_venta')
+       ->where('art.estado','=','activo')
+       ->where('art.stock','>','0')
+       ->groupBy('articulo', 'art.id', 'art.stock')
+       ->get();
+   
         return view ('venta.create', ["personas"=>$personas, "articulos"=>$articulos]);
     }
 
@@ -106,25 +108,23 @@ class VentaController extends Controller
 
     public function show($id, Request $request)
     {
-        $ingreso = DB::table('ingreso as i')
-        ->join('persona as p','i.id_proveedor', '=','p.id')
-        ->join('detalle_ingreso as di','i.id', '=','di.idingreso')
-        ->select('i.id', 'i.fecha', 'p.nombre',
-        'i.tipo_comprobante', 'i.num_comprobante', 'i.impuesto', 'i.estado',
-        DB::raw('sum(di.cantidad*di.precio_compra)as total'))
-        ->where('i.id','=',$id)
-        ->groupBy('i.id', 'i.fecha', 'p.nombre',
-        'i.tipo_comprobante', 'i.num_comprobante', 'i.impuesto', 'i.estado')
+        $venta = DB::table('venta as v')
+        ->join('persona as p','v.idcliente', '=','p.id')
+        ->join('detalle_venta as dv','v.id', '=','dv.idventa')
+        ->select('v.id', 'v.fecha', 'p.nombre',
+        'v.tipo_comprobante', 'v.num_comprobante', 'v.impuesto', 
+         'v.total')
+        ->where('v.id','=',$id)
         ->first();
         
-        $detalles = DB::table('detalle_ingreso as d')
+        $detalles = DB::table('detalle_venta as d')
             ->join('articulo as a', 'd.idarticulo', '=', 'a.id')
-            ->select('a.nombre as articulo', 'd.cantidad', 'd.precio_compra', 'd.precio_venta')
-            ->where('d.idingreso','=', $id)
+            ->select('a.nombre as articulo', 'd.cantidad', 'd.descuento', 'd.precio_venta')
+            ->where('d.idventa','=', $id)
             ->get();
 
 
-        return view ('ingreso.show', ["ingreso"=>$ingreso, "detalles"=>$detalles]);
+        return view ('venta.show', ["venta"=>$venta, "detalles"=>$detalles]);
       
     }
     public function destroy($id)

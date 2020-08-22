@@ -1,20 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row">
-        <div class="col-sm-6">
-        @if ($errors->any())
-          <div class='alert alert-danger'>
-          <ul>
-            @foreach ($errors->all() as $error)
-              <li>{{$error}}</li>
-              @endforeach
-          </ul>
-        </div>
-        @endif
-      </div>
+
+@if(count($errors) > 0 )
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <ul class="p-0 m-0" style="list-style: none;">
+        @foreach($errors->all() as $error)
+        <li>{{$error}}</li>
+        @endforeach
+    </ul>
 </div>
+@endif
+
+
+
     <div class="container p-3 my-3 border" style="background-color: #fff"> 
     <h2>Crear nueva categoría </h2>
 
@@ -25,10 +27,10 @@
     <div class="row">
     <div class="form-group col-md-6">
     <label for="nombre">Nombre</label>
-    <input type="text" class="form-control" name="nombre" placeholder="escribe el nombre de la categoría">
+    <input type="text" class="form-control" name="nombre" value="{{ old('nombre') }}" placeholder="escribe el nombre de la categoría">
     <br>
-    <label for="email">Descripcion</label>
-    <input type="text" class="form-control" name="descripcion" placeholder="escribe la descripción">
+    <label for="descripcion">Descripcion</label>
+    <input type="text" class="form-control" name="descripcion" value="{{ old('descripcion') }}" placeholder="escribe la descripción">
     </div>
     </div>
  
@@ -43,4 +45,5 @@
 
 </div>
 </div>
+
 @endsection

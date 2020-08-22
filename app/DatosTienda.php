@@ -4,27 +4,23 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Articulo extends Model
+class DatosTienda extends Model
 {
-    protected $table = 'articulo';
+    protected $table = 'datos_tienda';
     protected $primarykey = 'id';
     public $timestamps = false;
     
     protected $filable = [
-        'idcategoria',
-        'codigo',
         'nombre',
-        'stock',
-        'precio_venta',
-        'descripcion',
-        'condicion',
-        'imagen',
-        'estado'
+        'nombre_fantasia',
+        'cuit',
+        'direccion',
+        'responsable',
+        'logo',
+      
     ];
     protected $guarded = [
 
       
     ];
-
-
 }

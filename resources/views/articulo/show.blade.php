@@ -15,9 +15,11 @@
     <div class="col-8" >
     <div class="card-body">
     <h2 > {{{$articulo->nombre}}}</h2>
+    <p class="card-text"><h4>Precio de Venta: ${{{$articulo->precio_venta}}}</h4></p>
     <p class="card-text">Codigo: {{{$articulo->codigo}}}</p>
     <p class="card-text">Descripcion: {{{$articulo->descripcion}}}</p>
     <p class="card-text">Stock: {{{$articulo->stock}}}</p>
+    
 
     @foreach($categoria as $categorias)
        @if($categorias->id==$articulo->idcategoria)

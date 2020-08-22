@@ -29,4 +29,12 @@ class UserEditFormRequest extends FormRequest
             'password' => 'confirmed'
         ];
     }
+
+    public function messages()
+{
+    return [
+        'name.required' => 'El campo nombre es requerido.',
+      
+    ];
+}
 }
