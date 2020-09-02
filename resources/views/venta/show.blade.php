@@ -11,30 +11,33 @@
     <div class="container p-3 my-3 border" style="background-color: #fff">
     <div class="row">
            <div class="form-group col-md-2">
-                  <label>Nº Comprobante</label>
-                  <p>{{$venta->num_comprobante}}</p>
+                  <label>Numero:</label>
+                  <p>0001-{{str_pad($venta->num_comprobante, 8, "0", STR_PAD_LEFT)}}</p>
             </div>
          
          <div class="form-group col-md-2">
-              <label for="nombre">Fecha</label>
+              <label for="nombre">Fecha:</label>
              <p>{{$newDate = date("d-m-Y", strtotime($venta->fecha))}}</p>
             
           </div>
           
            <div class="form-group col-md-2">
-              <label for="nombre">Cliente</label>
+              <label for="nombre">Cliente:</label>
              <p>{{$venta->nombre}}</p>
           </div>
 
             <div class="form-group col-md-2">
-                <label>Tipo comprobante</label>
+                <label>Tipo comprobante:</label>
                 <p>{{$venta->tipo_comprobante}}</p>
 
             </div>
-          
             <div class="form-group col-md-2">
-                  <label>Iva</label>
+                  <label>Iva:</label>
                   <p>%{{$venta->impuesto}}</p>
+            </div> 
+            <div class="form-group col-md-2">
+                  <label>Cae:</label>
+                  <p>{{$venta->cae}}</p>
             </div>  
         </div>
         </div>

@@ -34,7 +34,7 @@
             <form method="POST" action="{{ route('login') }}">
                 @csrf
 
-                <p class="login-box-msg">Inicia sesión para comenzar tu sesión</p>
+                <p class="login-box-msg">Iniciar Sesión</p>
 
                 <div class="input-group mb-3">
                     <input id="email" type="email" placeholder="Email"

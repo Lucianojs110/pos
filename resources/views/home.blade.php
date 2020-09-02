@@ -2,14 +2,13 @@
 
 @section('content')
 
-
-    
-<div id="card" class="container">
-   
-
+<div class="card" style="background-color: #fff">
+    <div class="card-header bg-info mb-3">
+    <h3>Bienvenido...</h3> 
+    </div>
+<div class="container p-4 my-2">
                 @foreach($tiendas as $tienda)
-                <div class="card" style="width:80%; margin-left:auto; margin-right:auto" >
-                <div class="container">
+               
                 <div class="row">
                    <div class="col-4" style="margin-top: auto; margin-bottom:auto;">
                        @if($tienda->logo != "")
@@ -37,6 +36,7 @@
                 </div>
                 @endforeach
 
+              
                 </div>
 
 
@@ -97,6 +97,7 @@
       <label>Seleccione un nuevo logo</label>
       <input type="file" class="form-control" name="select_file" id="select_file" >
       <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" data-dismiss="modal">cerrar</button>
       <input type="submit" id="upload" class="btn btn-primary" value="guardar">
         </form>
       </div>
@@ -119,7 +120,7 @@ $(document).ready(function(){
     
     function limpiar(){
          
-         $("#select_file").val("");
+      $("#select_file").val('');
         
 
    }
@@ -138,10 +139,17 @@ $(document).ready(function(){
             processData: false,
             data: new FormData(this),
             success: function(data) {
-                limpiar();
+               if(data.res == 0){
                 $('#actualizarLogo').modal('hide').toggle("slow");
                 $("#card").load(" #card > *");
-                toastr.info(data.message);
+                toastr.success(data.message);
+                limpiar();
+               }else{
+        
+                toastr.warning(data.message);
+                limpiar();
+               }
+              
             }
         });
         return false;

@@ -13,8 +13,11 @@
     </ul>
 </div>
 @endif
-     <div class="container p-3 my-3 border" style="background-color: #fff">   
-    <h2>Crear nuevo usuario </h2>
+<div class="card" style="background-color: #fff">
+    <div class="card-header bg-info mb-3">
+    <h3>Crear nuevo usuario </h3>
+    </div>
+<div class="container p-4 my-2">     
 
     <form action="/usuarios" method="POST" enctype="multipart/form-data">
     @csrf
@@ -61,7 +64,7 @@
     <input type="file" class="form-control" name="imagen" >
     </div>
     </div>
- 
+    
   
   
  
@@ -71,5 +74,5 @@
 
 </div>
 </div>
-
+</div>
 @endsection

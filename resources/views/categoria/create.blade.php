@@ -14,11 +14,14 @@
     </ul>
 </div>
 @endif
+    
+     <div class="card" style="background-color: #fff">
+        <div class="card-header bg-info mb-3">
+        <h3>Crear nueva categoría </h3>
+    </div>
+     <div class="container p-4 my-2"> 
 
 
-
-    <div class="container p-3 my-3 border" style="background-color: #fff"> 
-    <h2>Crear nueva categoría </h2>
 
     <form action="/categoria" method="POST" enctype="multipart/form-data">
     @csrf
@@ -43,6 +46,7 @@
   <a href="{{url('categoria')}}" class="btn btn-secondary">Volver</a>
 </form>
 
+</div>
 </div>
 </div>
 

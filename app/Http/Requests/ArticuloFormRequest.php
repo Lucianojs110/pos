@@ -28,6 +28,7 @@ class ArticuloFormRequest extends FormRequest
             'nombre' =>  'required|max:50',
             'descripcion' =>  'max:250',
             'stock' =>  'required|numeric',
+            'precio_venta' =>  'required|numeric',
             'imagen' => 'mimes:jpeg,bmp,png,jpg'
         ];
 

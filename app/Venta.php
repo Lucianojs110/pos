@@ -15,7 +15,9 @@ class Venta extends Model
         'id_usuario',
         'tipo_comprobante',
         'num_comprobante',
+        'cae',
         'fecha',
+        'vtocae',
         'impuesto',
         'total',
         'estado'

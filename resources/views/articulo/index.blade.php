@@ -1,10 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h2>Lista de Artículos <a href="articulo/create"><button type="button" class="btn btn-success float-right">Agregar Articulo</button></a></h2>
+<div class="card" style="background-color: #fff">
+    <div class="card-header bg-info mb-3">
+    <h3>Lista de artículos <a href="articulo/create"><button type="button" class="btn btn-light float-right">Agregar Articulo</button></a></h3> 
+    </div>
+<div class="container p-4 my-2">
+    
 <table id="data-table" class="table ">
-  <thead class="thead-dark">
+  <thead>
     <tr>
       <th scope="col">id</th>
       <th scope="col">Nombre</th>
@@ -22,7 +26,7 @@
   </tbody>
 </table>
 </div>
-
+</div>
 
 <script>
 	

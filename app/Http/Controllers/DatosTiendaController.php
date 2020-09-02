@@ -42,13 +42,15 @@ class DatosTiendaController extends Controller
         $tienda->logo = $image->getClientOriginalName();
         $tienda ->update();
         return response()->json([
-            'message' => 'Logo Actualizado correctamente'
+            'message' => 'Logo Actualizado correctamente',
+            'res' => '0'
       ]);
         return redirect('/');
        }else
        {
           return response()->json([
-                'message' => 'ingrese un formato valido'
+                'message' => 'ingrese un formato valido',
+                'res' => '1'
           ]);
        }
        

@@ -49,30 +49,30 @@
                     </li>
                 </ul>
 
-                <!-- SEARCH FORM -->
-                <form class="form-inline ml-3">
-                    <div class="input-group input-group-sm">
-                        <input class="form-control form-control-navbar" type="search" placeholder="Search"
-                            aria-label="Search">
-                        <div class="input-group-append">
-                            <button class="btn btn-navbar" type="submit">
-                                <i class="fas fa-search"></i>
-                            </button>
-                        </div>
-                    </div>
-                </form>
 
                 <!-- Right navbar links -->
                 <ul class="navbar-nav ml-auto">
-                    <!-- Messages Dropdown Menu -->
-                    <li class="nav-item dropdown">
-               
-                    </li>
+                <div class="user-panel" style="padding-right: 15px; ">
+                                @guest
+                                <a class="nav-link" href="{{ route('login') }}">{{ __('Iniciar Sesión') }}</a>
+                                @else
+                                <div class="image">
+                               <img  src="{{asset('imagenes/'.Auth::user()->imagen)}}" class="img-circle elevation-2" alt="User Image" style="padding-left:10px">
+                                </div>
+                                {{ Auth::user()->name }}
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                    style="display: none;">
+                                    @csrf
+                                </form>
+                                @endguest
+                            </a>
+                </div>
+                  
                     <!-- Notifications Dropdown Menu -->
                     <li class="nav-item dropdown">
-                    <a class="btn btn-outline-dark"  href="{{ route('logout') }}" onclick="event.preventDefault();
+                    <a class="btn btn-light btn-md"  href="{{ route('logout') }}" onclick="event.preventDefault();
                          document.getElementById('logout-form').submit();">
-                         Salir
+                         <i class="fas fa-sign-out-alt"></i>
                     </a>
                     </li>
                 </ul>
@@ -80,59 +80,30 @@
             <!-- /.navbar -->
 
             <!-- Main Sidebar Container -->
-            <aside class="main-sidebar sidebar-dark-primary elevation-6">
+               <aside class="main-sidebar sidebar-dark-primary elevation-6" style="background-color:#0a5c54">
                 <!-- Brand Logo -->
-                <a href="{{ url('/') }}" class="brand-link">
+                <a href="{{ url('/') }}" class="brand-link"  style="background-color:#dee2e6; padding: .8125rem 0.8rem;">
                     <img src="{{asset('dist/img/AdminLTELogo.png')}}" alt="AdminLTE Logo" class="brand-image "
                         style="opacity: .8">
-                    <span class="brand-text font-weight-light">easy<b style="color:#48b1c0">POS</b></span>
+                    <span class="brand-text font-weight-dark" style="color:black">easy<b style="color:#148F77">POS</b></span>
                 </a>
 
                 <!-- Sidebar -->
                 <div class="sidebar">
-                    <!-- Sidebar user panel (optional) -->
-                    <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-                        
-                        <div class="info">
-                            <a href="#" class="d-block">
-                                @guest
-                                <a class="nav-link" href="{{ route('login') }}">{{ __('Iniciar Sesión') }}</a>
-                                @else
-                                <div class="image">
-                       
-                               <img  src="{{asset('imagenes/'.Auth::user()->imagen)}}" class="img-circle elevation-2" alt="User Image">
-                                
-                                </div>
-                                
-                                {{ Auth::user()->name }}
-                                
-                               
-
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                    style="display: none;">
-                                    @csrf
-                                </form>
-
-                                @endguest
-                            </a>
-                        </div>
-                    </div>
-
                     <!-- Sidebar Menu -->
                     <nav class="mt-2">
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                             data-accordion="false">
-
                             <li class="nav-item">
-                                <a href="/" class="{{ Request::path() === '/' ? 'nav-link active' : 'nav-link' }}">
+                                <a href="/" class="{{ Request::path() === '/' ? 'nav-link' : 'nav-link' }}">
                                     <i class="nav-icon fas fa-home"></i>
                                     <p>Inicio</p>
                                 </a>
                             </li>
                             @can('administrador')
-                            <li class="nav-item">
+                            <li class="nav-item ">
                                 <a href="{{url('usuarios')}}"
-                                    class="{{ Request::path() === 'usuarios' ? 'nav-link active' : 'nav-link' }}">
+                                    class="{{ Request::path() === 'usuarios' ? 'nav-link' : 'nav-link' }}">
                                     <i class="nav-icon fas fa-users"></i>
                                     <p>
                                         Usuarios

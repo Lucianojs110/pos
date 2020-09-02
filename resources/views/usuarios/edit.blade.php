@@ -14,8 +14,11 @@
 </div>
 @endif
 
-<div class="container p-3 my-3 border" style="background-color: #fff">
-<h2>Editar usuario: {{$user->name}}</h2>
+<div class="card" style="background-color: #fff">
+    <div class="card-header bg-info mb-3">
+    <h4>Editar usuario: {{$user->name}}</h4>
+    </div>
+<div class="container p-4 my-2"> 
 
 <div class="card" style="width:10%">
     @if($user->imagen != "")
@@ -88,6 +91,7 @@
   <a href="{{url('usuarios')}}" class="btn btn-secondary">Volver</a>
 </form>
 
+</div>
 </div>
 </div>
 @endsection

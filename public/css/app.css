@@ -1,4 +1,5 @@
-@import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Nunito);
+/*@charset: "UTF-8";
 
 /*!
  * Bootstrap v4.5.0 (https://getbootstrap.com/)
@@ -2706,14 +2707,14 @@ fieldset:disabled a.btn {
 
 .btn-primary {
   color: #fff;
-  background-color: #3490dc;
-  border-color: #3490dc;
+  background-color: #009688;
+  border-color: #009688;
 }
 
 .btn-primary:hover {
   color: #fff;
-  background-color: #227dc7;
-  border-color: #2176bd;
+  background-color: #034640;
+  border-color: #034640;
 }
 
 .btn-primary:focus,
@@ -2911,8 +2912,8 @@ fieldset:disabled a.btn {
 
 .btn-danger {
   color: #fff;
-  background-color: #e3342f;
-  border-color: #e3342f;
+  background-color: #EC7063;
+  border-color: #EC7063;
 }
 
 .btn-danger:hover {
@@ -4450,6 +4451,8 @@ input[type=button].btn-block {
   padding: 0.5rem 1rem;
 }
 
+
+
 .nav-link:hover,
 .nav-link:focus {
   text-decoration: none;
@@ -4976,6 +4979,7 @@ input[type=button].btn-block {
   background-clip: border-box;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0.25rem;
+  box-shadow: 3px 3px 6px 1px #ACB0B2;
 }
 
 .card > hr {
@@ -5028,7 +5032,7 @@ input[type=button].btn-block {
 }
 
 .card-header {
-  padding: 0.75rem 1.25rem;
+  padding: 0.6rem 1.25rem;
   margin-bottom: 0;
   background-color: rgba(0, 0, 0, 0.03);
   border-bottom: 1px solid rgba(0, 0, 0, 0.125);
@@ -6311,6 +6315,8 @@ a.close.disabled {
   border-bottom: 1px solid #dee2e6;
   border-top-left-radius: calc(0.3rem - 1px);
   border-top-right-radius: calc(0.3rem - 1px);
+  background-color: #009688; 
+  color: white;
 }
 
 .modal-header .close {
@@ -7014,7 +7020,7 @@ button.bg-success:focus {
 }
 
 .bg-info {
-  background-color: #6cb2eb !important;
+  background-color: #009688 !important;
 }
 
 a.bg-info:hover,
@@ -11156,3 +11162,16 @@ button.toast-close-button {
   }
 }
 
+.container-panel {
+  overflow: hidden;
+  border:  0px solid #1F618D;
+  box-shadow: 3px 3px 6px 1px #ACB0B2;
+  min-height: 92%; /* full height almost always */
+  background-color: white  !important;
+  margin-top: 10px;
+  margin-bottom: 20px;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 15px;
+  border-radius: 3px;
+}

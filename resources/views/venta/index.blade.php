@@ -1,19 +1,27 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h2>Lista de Ventas<a href="venta/create"><button type="button" class="btn btn-success float-right">Nueva Venta</button></a></h2>
+
+<div class="card" style="background-color: #fff">
+    <div class="card-header bg-info mb-3">
+    <h3>Lista de Ventas<a href="venta/create"><button type="button" class="btn btn-light float-right">Nueva Venta</button></a></h3>
+     </div>
+     <div class="container p-4 my-2">
+
+
+
+    
 <table id="data-table" class="table table-sm">
-  <thead class="thead-dark">
+  <thead>
     <tr>
-    <th scope="col">id</th>
-      <th scope="col">Fecha</th>
-      <th scope="col">Cliente</th>
-      <th scope="col">Comprobante</th>
-      <th scope="col">Num. comprobante</th>  
-      <th scope="col">Total</th>  
-      <th scope="col">Estado</th>
-      <th scope="col" width="130px">Acciones</th>
+    <th scope="col">#</th>
+    <th scope="col">Numero</th>
+    <th scope="col">Fecha</th>
+    <th scope="col">Cliente</th>
+    <th scope="col">Tipo</th>  
+    <th scope="col">Total</th>  
+    <th scope="col">Estado</th>
+    <th scope="col" width="130px">Acciones</th>
       
     </tr>
   </thead>
@@ -22,7 +30,7 @@
 </table>
 </div>
 
-
+</div>
 <script>
 	
 
@@ -35,17 +43,17 @@ $(document).ready(function() {
         "ajax": "{{ route('venta.index')}}",
         "columns": [
             {data: 'id', name: 'venta.id'},
+            {data: 'num_comprobante', name: 'venta.num_comprobante'},
             {data: 'fecha', name: 'venta.fecha', type: 'date-dd-mmm-yyyy', targets: 0},
             {data: 'nombre', name: 'persona.nombre'},
             {data: 'tipo_comprobante', name: 'venta.tipo_comprobante'},
-            {data: 'num_comprobante', name: 'venta.num_comprobante'},
             {data: 'total', name: 'venta.total'},
             {data: 'estado', name: 'venta.estado'},
             {data: 'action', name: 'action', sercheable: false, orderable: false},
           
         ],
 
-        columnDefs:[{targets:1, render:function(data){
+        columnDefs:[{targets:2, render:function(data){
          return moment(data).format('D-M-YYYY');
          }}],
 

@@ -9,6 +9,7 @@ use App\Http\Requests\PersonaFormRequest;
 use Illuminate\Support\Facades\DB;
 use DataTables;
 use Session;
+use Afip;
 
 class ClienteController extends Controller
 {
@@ -29,7 +30,6 @@ class ClienteController extends Controller
                 ->addColumn('action', 'cliente.actions')
                 ->rawColumns(['action'])
                 ->make(true);
-
         }
 
         return view('cliente.index');
@@ -37,8 +37,27 @@ class ClienteController extends Controller
 
     public function create(Request $request)
     {
-        
+
+       
         return view ('cliente.create');
+    }
+
+
+    public function consultarcuit(Request $request)
+    {
+
+        if ($request->ajax()) {
+        $cuit = request('num_documento');
+        $afip = new Afip(array('CUIT' => 20375659078));
+        $persona = $afip->RegisterScopeFive->GetTaxpayerDetails($cuit);
+
+       $server_status =  $afip->RegisterScopeFive->GetServerStatus();
+        
+        return response()->json([
+            'persona' => $persona,
+             'estatus' => $server_status
+        ]);
+        }
     }
 
     public function store (PersonaFormRequest $request)

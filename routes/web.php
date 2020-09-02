@@ -30,4 +30,5 @@ Route::resource('DatosTienda', 'DatosTiendaController');
 
 Route::post('/update', 'DatosTiendaController@update')->name('update');
 Route::post('/updatelogo', 'DatosTiendaController@updatelogo')->name('updatelogo');
+Route::post('/consultarcuit', 'ClienteController@consultarcuit')->name('consultarcuit');
 

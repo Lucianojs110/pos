@@ -11700,7 +11700,7 @@ body.sidebar-collapse:not(.sidebar-mini-md):not(.sidebar-mini) .main-header::bef
   display: block;
   font-size: 1.25rem;
   line-height: 1.5;
-  padding: 0.8125rem 0.5rem;
+  padding: 0.8125rem 1.rem;
   transition: width 0.3s ease-in-out;
   white-space: nowrap;
 }
