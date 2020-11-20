@@ -22,7 +22,7 @@ class ClienteController extends Controller
         if ($request->ajax()) {
             $personas = DB::table('persona')
             ->where('persona.tipo_persona','=','cliente')
-            ->select('persona.id', 'persona.nombre', 'persona.tipo_documento',
+            ->select('persona.id', 'persona.nombre', 'persona.tipo',
             'persona.num_documento', 'persona.direccion', 'persona.email', 'persona.telefono');
 
             return DataTables::of($personas)
@@ -60,12 +60,16 @@ class ClienteController extends Controller
         }
     }
 
+    
+
+  
+
     public function store (PersonaFormRequest $request)
     {
         $personas =  new Persona();
         $personas->tipo_persona = 'cliente';
         $personas->nombre = request('nombre');
-        $personas->tipo_documento = request('tipo_documento');
+        $personas->tipo = request('tipo');
         $personas->num_documento = request('num_documento');
         $personas->direccion = request('direccion');
         $personas->telefono = request('telefono');
@@ -87,7 +91,7 @@ class ClienteController extends Controller
        $personas= Persona::findOrFail($id);
        $personas->tipo_persona = 'cliente';
         $personas->nombre = request('nombre');
-        $personas->tipo_documento = request('tipo_documento');
+        $personas->tipo = request('tipo');
         $personas->num_documento = request('num_documento');
         $personas->direccion = request('direccion');
         $personas->telefono = request('telefono');

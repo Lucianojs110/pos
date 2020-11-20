@@ -24,43 +24,30 @@
     @method('PATCH')
     @csrf
     
+
+    <div class="row">
+    <div class="form-group col-md-6">
+    <label for="numero_documento">Cuit</label>
+    <input type="number" class="form-control" maxlength="11" value="{{$persona->num_documento}}"  name="num_documento" id="num_documento" placeholder="escribe el número de documento">
     
-    <div class="row">
-    <div class="form-group col-md-6">
-    <label for="nombre">Nombre del cliente</label>
-    <input type="text" class="form-control" value="{{$persona->nombre}}" name="nombre" placeholder="escribe el nombre del cliente">
+    
     </div>
     <div class="form-group col-md-6">
-    <label for="telefono">Teléfono</label>
-    <input type="text" class="form-control" value="{{$persona->telefono}}"  name="telefono" placeholder="escribe el teléfono del cliente">
+    <label>Tipo de Cliente</label>
+    <input onkeyup="this.value = this.value.toUpperCase();" type="text" class="form-control" readonly value="{{$persona->tipo}}" name="tipo" id="tipo" placeholder="escribe el tipo de cliente">
     </div>
     </div>
  
  
     <div class="row">
     <div class="form-group col-md-6">
-    <label for="tipo_documento">Tipo documento</label>
-    <select name="tipo_documento" class="form-control">
-        @if($persona->tipo_documento=='DNI')
-         <option value="DNI" selected>DNI</option>
-         <option value="CUIT">CUIT</option>
-         <option value="PAS">PAS</option>
-        @elseif($persona->tipo_documento=='CUIT')
-        <option value="CUIT"  selected>CUIT</option>
-         <option value="DNI">DNI</option>
-         <option value="PAS">PAS</option> 
-         @else
-         <option value="PAS" selected>PAS</option> 
-         <option value="DNI">DNI</option>
-         <option value="CUIT">CUIT</option>
-         
-         @endif
-     </select>
+    <label>Nombre o Razon social</label>
+    <input onkeyup="this.value = this.value.toUpperCase();" type="text" class="form-control" value="{{$persona->nombre}}" name="nombre" id="nombre" placeholder="escribe el nombre del cliente">
 
     </div>
     <div class="form-group col-md-6">
-    <label for="numero_documento">Dirección</label>
-    <input type="text" class="form-control" value="{{$persona->direccion}}"  name="direccion" placeholder="escribe la dirección del cliente">
+    <label>Dirección</label>
+    <input onkeyup="this.value = this.value.toUpperCase();" type="text" class="form-control" value="{{$persona->direccion}}" name="direccion" id="direccion"  placeholder="escribe la dirección del cliente">
     </div>
     </div>
  
@@ -69,15 +56,21 @@
 
   <div class="row">
     <div class="form-group col-md-6">
-    <label for="numero_documento">Número documento</label>
-    <input type="text" class="form-control" value="{{$persona->num_documento}}"  name="num_documento" placeholder="escribe el número de documento">
+    <label>Teléfono</label>
+    <input onkeyup="this.value = this.value.toUpperCase();" type="text" class="form-control" value="{{$persona->telefono}}" name="telefono" placeholder="escribe el teléfono del cliente">
     
     </div>
     <div class="form-group col-md-6">
     <label for="email">Email</label>
-    <input type="text" class="form-control" value="{{$persona->email}}"  name="email" placeholder="escribe el email del cliente">
+    <input type="text" class="form-control" value="{{$persona->email}}" name="email" placeholder="escribe el email del cliente">
     </div>
     </div>
+
+
+
+
+    
+    
 
 
     <button type="submit" class="btn btn-primary">Actualizar</button>

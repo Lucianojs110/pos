@@ -4,9 +4,9 @@
 
 <div class="card" style="background-color: #fff">
     <div class="card-header bg-info mb-3">
-    <h3>Lista de Usuarios registrados <a href="usuarios/create"><button type="button" class="btn btn-light float-right">Agregar usuario</button></a></h3>
+    <h3>Usuarios<a href="usuarios/create"><button type="button" class="btn btn-light float-right">Agregar usuario</button></a></h3>
     </div>
-<div class="container p-4 my-2">
+<div class="container p-2 my-2">
 
 
    
@@ -33,7 +33,7 @@
 
 $(document).ready(function() {
     $('#data-table').DataTable( {
-      
+        "responsive": true,
         "processing": true,
         "serverSide": true,
         "ajax": "{{ route('usuarios.index')}}",

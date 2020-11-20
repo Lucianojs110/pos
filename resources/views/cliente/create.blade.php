@@ -20,20 +20,20 @@
     <h3>Crear nuevo cliente </h3> 
      </div>
      <div class="container p-4 my-2">
-    <form action="/cliente" method="POST" enctype="multipart/form-data">
+    <form action="{{url('cliente')}}" method="POST" enctype="multipart/form-data">
     @csrf
     
     
     <div class="row">
     <div class="form-group col-md-6">
     <label for="numero_documento">Cuit</label>
-    <input type="text" class="form-control" name="num_documento" id="num_documento" placeholder="escribe el número de documento">
+    <input type="number" class="form-control" maxlength="11" name="num_documento" id="num_documento" placeholder="escribe el número de documento">
     
     
     </div>
     <div class="form-group col-md-6">
     <label>Tipo de Cliente</label>
-    <input type="text" class="form-control" name="tipoCliente" id="tipoCliente" placeholder="escribe el tipo de cliente">
+    <input type="text" class="form-control" readonly name="tipo" id="tipo" placeholder="escribe el tipo de cliente">
     </div>
     </div>
  
@@ -41,12 +41,12 @@
     <div class="row">
     <div class="form-group col-md-6">
     <label>Nombre o Razon social</label>
-    <input type="text" class="form-control" name="nombre" id="nombre" placeholder="escribe el nombre del cliente">
+    <input onkeyup="this.value = this.value.toUpperCase();" type="text" class="form-control" name="nombre" id="nombre" placeholder="escribe el nombre del cliente">
 
     </div>
     <div class="form-group col-md-6">
     <label>Dirección</label>
-    <input type="text" class="form-control" name="direccion" placeholder="escribe la dirección del cliente">
+    <input onkeyup="this.value = this.value.toUpperCase();" type="text" class="form-control" name="direccion" id="direccion"  placeholder="escribe la dirección del cliente">
     </div>
     </div>
  
@@ -56,7 +56,7 @@
   <div class="row">
     <div class="form-group col-md-6">
     <label>Teléfono</label>
-    <input type="text" class="form-control" name="telefono" placeholder="escribe el teléfono del cliente">
+    <input onkeyup="this.value = this.value.toUpperCase();" type="text" class="form-control" name="telefono" placeholder="escribe el teléfono del cliente">
     
     </div>
     <div class="form-group col-md-6">
@@ -86,40 +86,36 @@ $(document).ready(function(){
             url: "{{route('consultarcuit')}}",
             dataType: "json",
             data: {
-                
+
                 num_documento: $("#num_documento").val(),
-               
-                
-                   
             },
             success: function(data) {
                console.log(data);
-              if(data.persona.datosRegimenGeneral != null )
+              
+              if (data.persona == null || data.persona.datosRegimenGeneral == null){
+                $("#tipo").val('CONSUMIDOR FINAL');
+                toastr.warning("Cuit no registrado como contribuyente")
+              
+            }else
+            {
+                if(data.persona.datosRegimenGeneral.impuesto.idImpuesto == '5048' )
                  {
+                   $("#nombre").val(data.persona.datosGenerales.apellido+' '+data.persona.datosGenerales.nombre);
+                   $("#tipo").val('MONOTRIBUTO');
+                   $("#direccion").val(data.persona.datosGenerales.domicilioFiscal.direccion+' - '+data.persona.datosGenerales.domicilioFiscal.localidad+' - '+data.persona.datosGenerales.domicilioFiscal.descripcionProvincia);
+                 }
+               else if   (data.persona.datosRegimenGeneral.impuesto[1].idImpuesto == '30')
+                {
                   $("#nombre").val(data.persona.datosGenerales.razonSocial);
-                  $("#tipoCliente").val('Resp. Inscripto');
-                 }
-               else if  (data.persona.datosMonotributo != null )
-               {
-                $("#nombre").val(data.persona.datosGenerales.apellido+' '+data.persona.datosGenerales.nombre);
-                $("#tipoCliente").val('Monotributista');
-               }else
-               {
-                 if(data.persona.errorConstancia.apellido != null)
-                 {
-                     $("#nombre").val(data.persona.errorConstancia.apellido);
-                     $("#tipoCliente").val('Consumidor Final');
-                 }
-                 else
-                 {
-                    $("#nombre").val(data.persona.datosGenerales.nombre);
-                    $("#tipoCliente").val('Consumidor Final');
-                 };
+                  $("#tipo").val('RESP. INSCRIPTO');
+                  $("#direccion").val(data.persona.datosGenerales.domicilioFiscal.direccion+' - '+data.persona.datosGenerales.domicilioFiscal.localidad+' - '+data.persona.datosGenerales.domicilioFiscal.descripcionProvincia);
+                }
                
-               };
+            };
+               
             },
             error: function(){
-                toastr.warning("no se encontro nada")
+                toastr.warning("Ocurrio un problema")
             }
         });
         return false;

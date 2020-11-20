@@ -14,9 +14,13 @@
 </div>
 @endif
 
-    <div class="container p-3 my-3 border" style="background-color: #fff">
-    <h2>Crear nuevo Proveedor </h2>
-    <form action="/proveedor" method="POST" enctype="multipart/form-data">
+<div class="card" style="background-color: #fff">
+    <div class="card-header bg-info mb-3">
+    <h3>Crear nuevo Proveedor  </h3>
+    </div>
+<div class="container p-2 my-2"> 
+<form action="{{url('proveedor')}}" method="POST" enctype="multipart/form-data">
+
     @csrf
     
     
@@ -26,7 +30,7 @@
     <input type="text" class="form-control" name="nombre" placeholder="escribe el nombre del cliente">
     </div>
     <div class="form-group col-md-6">
-    <label for="telefono">Teléfono</label>
+    <label>Teléfono</label>
     <input type="text" class="form-control" name="telefono" placeholder="escribe el teléfono del cliente">
     </div>
     </div>
@@ -34,16 +38,14 @@
  
     <div class="row">
     <div class="form-group col-md-6">
-    <label for="tipo_documento">Tipo documento</label>
-    <select name="tipo_documento" class="form-control">
-         <option value="DNI">DNI</option>
-         <option value="CUIT">CUIT</option>
-         <option value="PAS">PAS</option>
-     </select>
+    <label for="numero_documento">Número documento</label>
+    <input type="text" class="form-control" name="num_documento" placeholder="escribe el número de documento">
+
+
 
     </div>
     <div class="form-group col-md-6">
-    <label for="numero_documento">Dirección</label>
+    <label >Dirección</label>
     <input type="text" class="form-control" name="direccion" placeholder="escribe la dirección del cliente">
     </div>
     </div>
@@ -53,13 +55,12 @@
 
   <div class="row">
     <div class="form-group col-md-6">
-    <label for="numero_documento">Número documento</label>
-    <input type="text" class="form-control" name="num_documento" placeholder="escribe el número de documento">
+    <label for="email">Email</label>
+    <input type="text" class="form-control" name="email" placeholder="escribe el email del cliente">
     
     </div>
     <div class="form-group col-md-6">
-    <label for="email">Email</label>
-    <input type="text" class="form-control" name="email" placeholder="escribe el email del cliente">
+
     </div>
     </div>
 
@@ -68,6 +69,7 @@
      <button type="reset" class="btn btn-danger">Cancelar</button>
      <a href="{{url('proveedor')}}" class="btn btn-secondary">Volver</a>
     </form>
+    </div>
     </div>
 
     @endsection

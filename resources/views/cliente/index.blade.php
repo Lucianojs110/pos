@@ -3,21 +3,19 @@
 @section('content')
 <div class="card" style="background-color: #fff">
     <div class="card-header bg-info mb-3">
-    <h3>Lista de clientes <a href="cliente/create"><button type="button" class="btn btn-light float-right">Agregar Cliente</button></a></h3>
+    <h3>Clientes <a href="cliente/create"><button type="button" class="btn btn-light float-right">Agregar Cliente</button></a></h3>
     </div>
-<div class="container p-4 my-2">
+<div class="container p-2 my-2">
 
 <table id="data-table" class="table ">
   <thead>
     <tr>
       <th scope="col">id</th>
       <th scope="col">Nombre</th>
-      <th scope="col">Tipo Doc.</th>
-      <th scope="col">Numero Doc.</th>
-      <th scope="col">Dirección</th>
+      <th scope="col">Tipo</th>
+      <th scope="col">Cuit</th>
       <th scope="col">Teléfono</th>
       <th scope="col">Email</th>
-      
       <th scope="col" width="130px">Acciones</th>
       
     </tr>
@@ -34,21 +32,24 @@
 
 $(document).ready(function() {
     $('#data-table').DataTable( {
-      
         "processing": true,
         "serverSide": true,
         "ajax": "{{ route('cliente.index')}}",
         "columns": [
             {data: 'id', name: 'id'},
             {data: 'nombre', name: 'nombre'},
-            {data: 'tipo_documento', name: 'tipo_documento'},
+            {data: 'tipo', name: 'tipo'},
             {data: 'num_documento', name: 'num_documento'},
-            {data: 'direccion', name: 'direccion'},
             {data: 'telefono', name: 'telefono'},
             {data: 'email', name: 'email'},
             {data: 'action', name: 'action', sercheable: false, orderable: false},
           
         ],
+        "rowReorder": {
+            selector: 'td:nth-child(2)'
+        },
+       "responsive": true,
+
         "language":{
          
               "decimal":        "",

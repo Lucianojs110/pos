@@ -21,7 +21,7 @@ class ProveedorController extends Controller
         if ($request->ajax()) {
             $persona = DB::table('persona')
             ->where('persona.tipo_persona','=','proveedor')
-            ->select('persona.id', 'persona.nombre', 'persona.tipo_documento',
+            ->select('persona.id', 'persona.nombre', 'persona.tipo',
             'persona.num_documento', 'persona.direccion', 'persona.email', 'persona.telefono');
 
             return DataTables::of($persona)
@@ -46,7 +46,6 @@ class ProveedorController extends Controller
         $personas =  new Persona();
         $personas->tipo_persona = 'proveedor';
         $personas->nombre = request('nombre');
-        $personas->tipo_documento = request('tipo_documento');
         $personas->num_documento = request('num_documento');
         $personas->direccion = request('direccion');
         $personas->telefono = request('telefono');
@@ -68,7 +67,6 @@ class ProveedorController extends Controller
        $personas= Persona::findOrFail($id);
        $personas->tipo_persona = 'proveedor';
         $personas->nombre = request('nombre');
-        $personas->tipo_documento = request('tipo_documento');
         $personas->num_documento = request('num_documento');
         $personas->direccion = request('direccion');
         $personas->telefono = request('telefono');

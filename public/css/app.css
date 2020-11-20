@@ -2720,8 +2720,8 @@ fieldset:disabled a.btn {
 .btn-primary:focus,
 .btn-primary.focus {
   color: #fff;
-  background-color: #227dc7;
-  border-color: #2176bd;
+  background-color: #134641;
+  border-color: #134641;
   box-shadow: 0 0 0 0.2rem rgba(82, 161, 225, 0.5);
 }
 

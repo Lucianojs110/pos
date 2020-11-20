@@ -81,6 +81,7 @@ class ArticuloController extends Controller
         $articulo->nombre = request('nombre');
         $articulo->stock = request('stock');
         $articulo->descripcion = request('descripcion');
+        $articulo->precio_venta = request('precio_venta');
         $articulo->estado = 'activo';
         if ($request->hasFile('imagen')){
             $file = $request->imagen;

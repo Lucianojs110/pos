@@ -20,7 +20,7 @@
      </div>
      <div class="container p-4 my-2">
     
-    <form action="/articulo" method="POST" enctype="multipart/form-data">
+    <form action="{{url('articulo')}}" method="POST" enctype="multipart/form-data">
     @csrf
     
     
@@ -61,10 +61,19 @@
      </select>
     </div>
     <div class="form-group col-md-6">
+    <label for="email">Precio Venta</label>
+    <input type="number" class="form-control" name="precio_venta" value="{{ old('precio_venta') }}" placeholder="ingresa el precio venta">
+    
+    </div>
+    </div>
+
+    <div class="row">
+    <div class="form-group col-md-6">
     <label>Imagen</label>
     <input type="file" class="form-control" name="imagen" >
     </div>
     </div>
+  
 
 
     <button type="submit" class="btn btn-primary">Registrar</button>

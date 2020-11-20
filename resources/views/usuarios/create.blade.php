@@ -13,13 +13,14 @@
     </ul>
 </div>
 @endif
+
 <div class="card" style="background-color: #fff">
     <div class="card-header bg-info mb-3">
     <h3>Crear nuevo usuario </h3>
     </div>
 <div class="container p-4 my-2">     
 
-    <form action="/usuarios" method="POST" enctype="multipart/form-data">
+<form action="{{url('usuarios')}}" method="POST" enctype="multipart/form-data">
     @csrf
     
     

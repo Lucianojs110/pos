@@ -2,42 +2,136 @@
 
 @section('content')
 
-<div class="card" style="background-color: #fff">
-    <div class="card-header bg-info mb-3">
-    <h3>Bienvenido...</h3> 
-    </div>
-<div class="container p-4 my-2">
+<div class="container-fluid">
+<div class="row">
+		  <div class="col-md-3">
+          <a href="{{url('venta/create')}}">
+            <div class="info-box bg-primary">
+              <span class="info-box-icon"><i class="far fa-money-bill-alt"></i></i></span>
+                <div class="info-box-content">
+                  <span class="info-box-text">Nueva venta</span>
+                </div>
+            </div>
+          </a>
+		  </div>
+      <div class="col-md-3">
+          <a href="{{url('cliente/create')}}">
+            <div class="info-box bg-success">
+              <span class="info-box-icon"><i class="fas fa-user"></i></i></span>
+                <div class="info-box-content">
+                  <span class="info-box-text">Nuevo Cliente</span>
+                </div>
+            </div>
+          </a>
+		  </div>
+      <div class="col-md-3">
+          <a href="{{url('cliente/create')}}">
+            <div class="info-box bg-info">
+              <span class="info-box-icon"><i class="fas fa-file-invoice"></i></i></span>
+                <div class="info-box-content">
+                  <span class="info-box-text">Nuevo Remito</span>
+                </div>
+            </div>
+          </a>
+		  </div>
+      <div class="col-md-3">
+          <a href="{{url('cliente/create')}}">
+            <div class="info-box bg-secondary">
+              <span class="info-box-icon"><i class="fas fa-file-invoice"></i></i></span>
+                <div class="info-box-content">
+                  <span class="info-box-text">Nuevo Presupuesto</span>
+                </div>
+            </div>
+          </a>
+		  </div>
+	  </div>
+	<div class="row">
+		<div class="form-group col-md-3">
+    <div  class="card" style="background-color: #fff;"> 
+    <div id="logo">
                 @foreach($tiendas as $tienda)
-               
-                <div class="row">
-                   <div class="col-4" style="margin-top: auto; margin-bottom:auto;">
                        @if($tienda->logo != "")
-                      <img src="{{asset('imagenes/'.$tienda->logo)}}" alt="{{$tienda->logo}}" height="100%" width="100%">
+                      <img src="{{asset('imagenes/'.$tienda->logo)}}" alt="{{$tienda->logo}}" class="card-img-top" height="230rem" width="100rem">
                        @endif
-                    </div>
-                <div class="col-8" >
-                   <div class="card-body">
-                     <h2 > {{{$tienda->nombre_fantasia}}}</h2>
+                       <div class="card-body">
+                       <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#actualizarLogo">
+                      Cambiar logo 
+                     </button>
+                      </div>
+                  @endforeach  
+                  
+    </div>
+    </div>    
+   </div>
+   <div class="form-group col-md-5">
+
+   <div  class="card"  style="background-color: #fff"> 
+      <div id="datos">
+                @foreach($tiendas as $tienda)
+                    
+                     
+                     <div class="card-body">
+                     <h3 style="color: #1A5276"> {{{$tienda->nombre_fantasia}}}</h3>
                      <p class="card-text">Propietario: {{{$tienda->nombre}}}</p>
                      <p class="card-text">Direccion: {{{$tienda->direccion}}}</p>
                      <p class="card-text">Cuit: {{{$tienda->cuit}}}</p>
-                     <p class="card-text">Iva: {{{$tienda->responsable}}}</p>
-                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#actualizarLogo">
-                      Cambiar logo 
-                     </button>
+                     <p class="card-text">Punto de Venta: {{{$tienda->punto_venta}}}</p>
+                     
+                     @if($tienda->responsable == 11)
+                     <p class="card-text">Iva: Monotributo </p>
+                     @else
+                     <p class="card-text">Iva: Responsable Inscripto </p>
+                     @endif
+                     
+                     
                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#actualizarDatos">
                       Actualizar Datos
                      </button>
-                     
+                @endforeach   
                    </div>
-                </div>
-                </div>
-                </div>
-                </div>
-                @endforeach
+        </div>            
+    </div>
+                  
+   </div>
+   
+   
 
-              
-                </div>
+		<div class="form-group col-md-4">
+         
+          <div class="small-box bg-info">
+          <div class="inner">
+            <h3>150</h3>
+          <p>Ventas</p>
+          </div>
+          <div class="icon">
+          <i class="fas fa-shopping-cart"></i>
+          </div>
+          <a href="#" class="small-box-footer">
+          Ver listado <i class="fas fa-arrow-circle-right"></i>
+          </a>
+          </div>
+
+
+          <div class="small-box bg-gradient-success">
+          <div class="inner">
+          <h3>44</h3>
+          <p>Clientes</p>
+          </div>
+          <div class="icon">
+          <i class="fas fa-user-plus"></i>
+          </div>
+          <a href="#" class="small-box-footer">
+          Ver listado <i class="fas fa-arrow-circle-right"></i>
+          </a>
+        </div>
+    </div>
+	</div>
+  </div>
+	 
+  </div>
+
+
+
 
 
 
@@ -64,8 +158,8 @@
        <input type="text" class="form-control" id="direccion" name="direccion" value=" {{{$tienda->direccion}}}"  placeholder="Ingrese la direccion de la tienda">
        <label>Condicion ante el Iva</label>
              <select name="iva" id="iva" class="form-control">
-             <option value="Resp. Inscripto">Responsable Inscripto</option>
-             <option value="Monotributo">Monotributo</option>
+             <option value="6">Responsable Inscripto</option>
+             <option value="11">Monotributo</option>
              </select>
      
       </div>
@@ -114,8 +208,6 @@
 
 @push('scripts')
 <script>
-
-
 $(document).ready(function(){
     
     function limpiar(){
@@ -141,7 +233,7 @@ $(document).ready(function(){
             success: function(data) {
                if(data.res == 0){
                 $('#actualizarLogo').modal('hide').toggle("slow");
-                $("#card").load(" #card > *");
+                $("#logo").load(" #logo");
                 toastr.success(data.message);
                 limpiar();
                }else{
@@ -157,13 +249,7 @@ $(document).ready(function(){
              
     $('#guardar').on('click', function(event)
     {
-        
-       nombre= $("#nombre").val();
-       fantasia= $("#fantasia").val();
-       cuit= $("#cuit").val();
-       direccion= $("#direccion").val();
-        if (nombre != ""  || fantasia != "" || cuit != "" || direccion != "" ) {
-           
+              
         $.ajax({
             headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
             type: "POST",
@@ -182,7 +268,7 @@ $(document).ready(function(){
             success: function(data) {
                 toastr.success("Datos actualizados correctamente")
                 $('#actualizarDatos').modal('hide').toggle("slow");
-                $("#card").load(" #card > *");
+                $("#datos").load(" #datos");
 
             },
             error: function(){
@@ -190,20 +276,9 @@ $(document).ready(function(){
             }
         });
         return false;
-    }
-    toastr.warning("Complete todos los campos")
+    
+    });     
     });
-
-
-   
-
-  
-          
-    });
-
-
-
-
 </script>
 @endpush
 @endsection

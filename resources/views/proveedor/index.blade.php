@@ -1,15 +1,22 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <h2>Lista de proveedores <a href="proveedor/create"><button type="button" class="btn btn-success float-right">Agregar proveedor</button></a></h2>
+
+<div class="card" style="background-color: #fff">
+    <div class="card-header bg-info mb-3">
+    <h3>Proveedor <a href="proveedor/create"><button type="button" class="btn btn-light float-right">Agregar proveedor</button></a></h3>
+    </div>
+<div class="container p-2 my-2">
+
+
+
+
 <table id="data-table" class="table ">
-  <thead class="thead-dark">
+  <thead>
     <tr>
       <th scope="col">id</th>
       <th scope="col">Nombre</th>
-      <th scope="col">Tipo Doc.</th>
-      <th scope="col">Numero Doc.</th>
+      <th scope="col">Cuit</th>
       <th scope="col">Dirección</th>
       <th scope="col">Teléfono</th>
       <th scope="col">Email</th>
@@ -21,6 +28,7 @@
   <tbody>
   </tbody>
 </table>
+</div>
 </div>
 
 
@@ -36,7 +44,6 @@ $(document).ready(function() {
         "columns": [
             {data: 'id', name: 'id'},
             {data: 'nombre', name: 'nombre'},
-            {data: 'tipo_documento', name: 'tipo_documento'},
             {data: 'num_documento', name: 'num_documento'},
             {data: 'direccion', name: 'direccion'},
             {data: 'telefono', name: 'telefono'},

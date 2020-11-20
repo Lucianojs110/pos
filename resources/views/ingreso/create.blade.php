@@ -14,16 +14,16 @@
 </div>
 @endif
 
-    <div class="container p-3 my-3 border" style="background-color: #fff">
-    <h2>Nuevo Ingreso </h2>
-    <form action="/ingreso" method="POST" enctype="multipart/form-data">
+    <div class="card" style="background-color: #fff">
+    <div class="card-header bg-info mb-3">
+    <h3>Nuevo Ingreso</h3>
+     </div>
+     <div class="container p-2 my-2">
+     <form action="{{url('ingreso')}}" method="POST" enctype="multipart/form-data">
     @csrf
     
-    
     <div class="row">
-         
-   
-
+        
         <div class="form-group col-md-6">
               <label for="nombre">Proveedor</label>
               <select name="idproveedor" id="idproveedor" class="form-control selectpicker" data-live-search="true">
@@ -53,7 +53,7 @@
    
         <div class="container p-3 my-3 border" style="background-color: #fff">
     <div class="row">      
-                   <div class="col col-lg-4">
+                   <div class="form-group col-lg-4">
                    <label for="nombre">Articulo</label>
                        <select name="pidarticulo" id="pidarticulo" class="form-control selectpicker" data-live-search="true">
                             <option selected disabled>Elige un articulo</option>
@@ -62,19 +62,19 @@
                             @endforeach
                        </select>
                    </div>
-                   <div class="col col-lg-2"> 
+                   <div class="form-group col-lg-2"> 
                         <label>Cantidad</label>
                         <input type="number" class="form-control" id="pcantidad" name="cantidad" placeholder="cantidad">
                   </div>
-                  <div class="col col-lg-2"> 
+                  <div class="form-group col-lg-2"> 
                         <label>Precio Compra</label>
                         <input type="number" class="form-control" id="pprecio_compra" name="precio_compra" placeholder="P. compra">
                   </div>
-                  <div class="col col-lg-2"> 
+                  <div class="form-group col-lg-2"> 
                         <label>Precio venta</label>
                         <input type="number" class="form-control" id="pprecio_venta" name="precio_venta" placeholder="P. venta">
                   </div>
-                  <div class="col col-lg-2" style="margin-top:auto"> 
+                  <div class="form-group col-lg-2" style="margin-top:auto"> 
                   <button type="button" id="bt-add" class="btn btn-primary">Agregar</button>
                   </div>
         </div>    
@@ -82,7 +82,7 @@
          <div class="row">
          <div class="col col-lg-12">
          <table class="table table-hover" id="detalle">
-           <thead class="thead-dark">
+           <thead class="thead-light">
              <tr>
              <th>Eliminar</th>
              <th>Articulos</th>
@@ -116,6 +116,7 @@
          <button type="reset" class="btn btn-danger">Cancelar</button>
          <a href="{{url('ingreso')}}" class="btn btn-secondary">Volver</a>
     </div>
+</div>
 </div>
     
    

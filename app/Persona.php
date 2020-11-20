@@ -13,7 +13,7 @@ class Persona extends Model
     protected $filable = [
         'tipo_persona',
         'nombre',
-        'tipo_documento',
+        'tipo',
         'num_documento',
         'direccion',
         'telefono',

@@ -1,11 +1,14 @@
 @extends('layouts.app')
 
 @section('content')
+
+
+
 <div class="card" style="background-color: #fff">
     <div class="card-header bg-info mb-3">
-    <h3>Lista de Categorías <a href="categoria/create"><button type="button" class="btn btn-light float-right">Agregar Categoria</button></a></h3>
+    <h3>Categorías <a href="categoria/create"><button type="button" class="btn btn-light float-right">Agregar Categoria</button></a></h3>
     </div>
-<div class="container p-4 my-2"> 
+<div class="container p-2 my-2"> 
 
     
 <table id="data-table" class="table ">
@@ -25,12 +28,16 @@
 </div>
 </div>
 
+
+
+
+
 <script>
 	
 
 $(document).ready(function() {
     $('#data-table').DataTable( {
-      
+      "responsive": true,
         "processing": true,
         "serverSide": true,
         "ajax": "{{ route('categoria.index')}}",

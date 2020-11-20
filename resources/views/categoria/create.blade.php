@@ -2,18 +2,7 @@
 
 @section('content')
 
-@if(count($errors) > 0 )
-<div class="alert alert-danger alert-dismissible fade show" role="alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-    <ul class="p-0 m-0" style="list-style: none;">
-        @foreach($errors->all() as $error)
-        <li>{{$error}}</li>
-        @endforeach
-    </ul>
-</div>
-@endif
+
     
      <div class="card" style="background-color: #fff">
         <div class="card-header bg-info mb-3">
@@ -23,17 +12,17 @@
 
 
 
-    <form action="/categoria" method="POST" enctype="multipart/form-data">
+    <form action="{{url('categoria')}}"  method="POST" enctype="multipart/form-data">
     @csrf
     
     
     <div class="row">
     <div class="form-group col-md-6">
     <label for="nombre">Nombre</label>
-    <input type="text" class="form-control" name="nombre" value="{{ old('nombre') }}" placeholder="escribe el nombre de la categoría">
+    <input type="text" class="form-control" name="nombre" value="{{ old('nombre') }}" placeholder="escribe el nombre de la categoría" required>
     <br>
     <label for="descripcion">Descripcion</label>
-    <input type="text" class="form-control" name="descripcion" value="{{ old('descripcion') }}" placeholder="escribe la descripción">
+    <input type="text" class="form-control" name="descripcion" value="{{ old('descripcion') }}" placeholder="escribe la descripción" required>
     </div>
     </div>
  

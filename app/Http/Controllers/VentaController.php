@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Venta;
 use App\Articulo;
 use App\DetalleVenta;
+use App\DatosTienda;
 use App\Http\Requests\VentaFormRequest;
 use Illuminate\Support\Facades\DB;
 use DataTables;
@@ -48,28 +49,103 @@ class VentaController extends Controller
 
     public function create(Request $request)
     {
-       $personas=DB::table('Persona')->where('tipo_persona','=','cliente')->get();
-       
+       $personas=DB::table('persona')->where('tipo_persona','=','cliente')->get();
+
        $articulos=DB::table('articulo as art')
        ->join('detalle_ingreso as di','art.id','=', 'di.idarticulo')
-       ->select(DB::raw('CONCAT(art.codigo, " ",art.nombre) AS articulo'), 'art.id', 'art.stock',
+       ->select(DB::raw('concat(art.codigo, " ",art.nombre) as articulo'), 'art.id', 'art.stock',
       'art.precio_venta')
        ->where('art.estado','=','activo')
        ->where('art.stock','>','0')
-       ->groupBy('articulo', 'art.id', 'art.stock')
+       ->groupBy('articulo', 'art.id', 'art.stock', 'art.precio_venta')
        ->get();
-       $afip = new Afip(array('CUIT' => 20375659078));
-       $last_voucher = $afip->ElectronicBilling->GetLastVoucher(2,11);
-       $numComp = $last_voucher + 1;
-       $numComp = str_pad($numComp, 8, "0", STR_PAD_LEFT);
-        return view ('venta.create', ["numComp"=>$numComp, "personas"=>$personas, "articulos"=>$articulos]);
+
+       $tienda=DB::table('datos_tienda')->where('id','=','1')->get();
+       foreach ($tienda as $tienda1)
+       {
+        $cuit = $tienda1->cuit;
+        $punto = $tienda1->punto_venta;
+        $factura = $tienda1->responsable;
+       }
+      
+       
+        
+       if ($factura == 11){
+           $tipo_comprobante = "C";
+           $afip = new Afip(array('CUIT' => $cuit));
+           $last_voucher = $afip->ElectronicBilling->GetLastVoucher($punto,$factura);
+           $numComp = $last_voucher + 1;
+           $numComp = str_pad($numComp, 8, "0", STR_PAD_LEFT);
+           $punto = str_pad($punto, 3, "0", STR_PAD_LEFT);
+
+       }else{
+        $tipo_comprobante = "B";
+        $afip = new Afip(array('CUIT' => $cuit));
+        $last_voucher = $afip->ElectronicBilling->GetLastVoucher($punto,$factura);
+        $numComp = $last_voucher + 1;
+        $numComp = str_pad($numComp, 8, "0", STR_PAD_LEFT);
+        $punto = str_pad($punto, 3, "0", STR_PAD_LEFT);
+
+       }
+
+        return view ('venta.create', ["tipo_comprobante"=>$tipo_comprobante,"punto"=>$punto, "numComp"=>$numComp, "personas"=>$personas, "articulos"=>$articulos]);
     }
 
+    
+    public function lastVoucher(Request $request)
+    {
+        $tienda=DB::table('datos_tienda')->where('id','=','1')->get();
+       foreach ($tienda as $tienda1)
+       {
+        $cuit = $tienda1->cuit;
+        $punto = $tienda1->punto_venta;
+       
+       }
+      
+        if ($request->ajax()) {
+            $factura = request('tipo');
+        if ($factura == "FACTURA A"){
+           
+            $afip = new Afip(array('CUIT' => $cuit));
+            $last_voucher = $afip->ElectronicBilling->GetLastVoucher($punto,1);
+            $numComp = $last_voucher + 1;
+            $numComp = str_pad($numComp, 8, "0", STR_PAD_LEFT);
+            $punto = str_pad($punto, 3, "0", STR_PAD_LEFT);
+            $last_voucher1 =  $numComp;
+        }else
+        {
+            
+            $afip = new Afip(array('CUIT' => $cuit));
+            $last_voucher = $afip->ElectronicBilling->GetLastVoucher($punto,6);
+            $numComp = $last_voucher + 1;
+            $numComp = str_pad($numComp, 8, "0", STR_PAD_LEFT);
+            $punto = str_pad($punto, 3, "0", STR_PAD_LEFT);
+            
+        }
+        
+    }
+        return (["numComp"=>$numComp, "punto"=>$punto ]);
+    }
+    
+    
     public function store (VentaFormRequest $request)
     {
        
-        $afip = new Afip(array('CUIT' => 20375659078));
-        $last_voucher = $afip->ElectronicBilling->GetLastVoucher(1,11);
+        $tienda=DB::table('datos_tienda')->where('id','=','1')->get();
+       foreach ($tienda as $tienda1)
+       {
+        $cuit = $tienda1->cuit;
+        $punto = $tienda1->punto_venta;
+        $factura = $tienda1->responsable;
+       }
+        
+        
+       $tipoComprobante = request('tipo_comprobante');
+
+       if($tipoComprobante == "FACTURA C"){
+
+        $afip = new Afip(array('CUIT' => $cuit));
+        $last_voucher = $afip->ElectronicBilling->GetLastVoucher($punto ,11);
         $numComp = $last_voucher + 1;
 
         $ImpTotal = request('total_venta');
@@ -83,8 +159,51 @@ class VentaController extends Controller
 
         $data = array(
             'CantReg' 	=> 1,  // Cantidad de comprobantes a registrar
-            'PtoVta' 	=> 1,  // Punto de venta
+            'PtoVta' 	=> $punto,  // Punto de venta
             'CbteTipo' 	=> 11,  // Tipo de comprobante (ver tipos disponibles) 
+            'Concepto' 	=> 1,  // Concepto del Comprobante: (1)Productos, (2)Servicios, (3)Productos y Servicios
+            'DocTipo' 	=> 99, // Tipo de documento del comprador (99 consumidor final, ver tipos disponibles)
+            'DocNro' 	=> 0,  // Número de documento del comprador (0 consumidor final)
+            'CbteDesde' 	=> $numComp,  // Número de comprobante o numero del primer comprobante en caso de ser mas de uno
+            'CbteHasta' 	=> $numComp,  // Número de comprobante o numero del último comprobante en caso de ser mas de uno
+            'CbteFch' 		=> intval($date2), // (Opcional) Fecha del comprobante (yyyymmdd) o fecha actual si es nulo
+            'ImpTotal' 	=> $ImpTotal, // Importe total del comprobante
+            'ImpTotConc' 	=> 0,   // Importe neto no gravado
+            'ImpNeto' 	=> $ImpTotal, // Importe neto gravado
+            'ImpOpEx' 	=> 0,   // Importe exento de IVA
+            'ImpIVA' 	=> 0,  //Importe total de IVA
+            'ImpTrib' 	=> 0,   //Importe total de tributos
+            'MonId' 	=> 'PES', //Tipo de moneda usada en el comprobante (ver tipos disponibles)('PES' para pesos argentinos) 
+            'MonCotiz' 	=> 1,     // Cotización de la moneda usada (1 para pesos argentinos)  
+            
+        );
+        
+        $res = $afip->ElectronicBilling->CreateVoucher($data);
+        
+        $cae=$res['CAE']; //CAE asignado el comprobante
+        $vtocae = $res['CAEFchVto']; //Fecha de vencimiento del CAE (yyyy-mm-dd)
+
+
+       }else if ($tipoComprobante == "FACTURA B"){
+
+        $afip = new Afip(array('CUIT' => $cuit));
+        $last_voucher = $afip->ElectronicBilling->GetLastVoucher($punto,6);
+        $numComp = $last_voucher + 1;
+
+        $ImpTotal = request('total_venta');
+        $ImpNeto = $ImpTotal/1.21;
+        $ImpNeto = number_format((float)$ImpNeto, 2, '.', '');
+        $ImpIVA = $ImpTotal - $ImpNeto;
+        $ImpIVA = number_format((float)$ImpIVA, 2, '.', '');
+        
+        $date = Carbon::now('America/Argentina/Buenos_Aires');
+        $date2 = $date->format('Ymd');
+        
+
+        $data = array(
+            'CantReg' 	=> 1,  // Cantidad de comprobantes a registrar
+            'PtoVta' 	=> $punto,  // Punto de venta
+            'CbteTipo' 	=> 6,  // Tipo de comprobante (ver tipos disponibles) 
             'Concepto' 	=> 1,  // Concepto del Comprobante: (1)Productos, (2)Servicios, (3)Productos y Servicios
             'DocTipo' 	=> 99, // Tipo de documento del comprador (99 consumidor final, ver tipos disponibles)
             'DocNro' 	=> 0,  // Número de documento del comprador (0 consumidor final)
@@ -112,6 +231,61 @@ class VentaController extends Controller
         
         $cae=$res['CAE']; //CAE asignado el comprobante
         $vtocae = $res['CAEFchVto']; //Fecha de vencimiento del CAE (yyyy-mm-dd)
+
+
+       }else if ($tipoComprobante == "FACTURA A"){
+       
+    
+        $afip = new Afip(array('CUIT' => $cuit));
+        $last_voucher = $afip->ElectronicBilling->GetLastVoucher($punto,1);
+        $numComp = $last_voucher + 1;
+
+        $ImpTotal = request('total_venta');
+        $ImpNeto = $ImpTotal/1.21;
+        $ImpNeto = number_format((float)$ImpNeto, 2, '.', '');
+        $ImpIVA = $ImpTotal - $ImpNeto;
+        $ImpIVA = number_format((float)$ImpIVA, 2, '.', '');
+        
+        $date = Carbon::now('America/Argentina/Buenos_Aires');
+        $date2 = $date->format('Ymd');
+        $clientCuit = request('cuit');
+        
+        $data = array(
+            'CantReg' 	=> 1,  // Cantidad de comprobantes a registrar
+            'PtoVta' 	=> intval($punto),  // Punto de venta
+            'CbteTipo' 	=> 1,  // Tipo de comprobante (ver tipos disponibles) 
+            'Concepto' 	=> 1,  // Concepto del Comprobante: (1)Productos, (2)Servicios, (3)Productos y Servicios
+            'DocTipo' 	=> 80, // Tipo de documento del comprador (99 consumidor final, ver tipos disponibles)
+            'DocNro' 	=> intval($clientCuit),  // Número de documento del comprador (0 consumidor final)
+            'CbteDesde' 	=> $numComp,  // Número de comprobante o numero del primer comprobante en caso de ser mas de uno
+            'CbteHasta' 	=> $numComp,  // Número de comprobante o numero del último comprobante en caso de ser mas de uno
+            'CbteFch' 		=> intval($date2), // (Opcional) Fecha del comprobante (yyyymmdd) o fecha actual si es nulo
+            'ImpTotal' 	=> $ImpTotal, // Importe total del comprobante
+            'ImpTotConc' 	=> 0,   // Importe neto no gravado
+            'ImpNeto' 	=> $ImpNeto, // Importe neto gravado
+            'ImpOpEx' 	=> 0,   // Importe exento de IVA
+            'ImpIVA' 	=> $ImpIVA,  //Importe total de IVA
+            'ImpTrib' 	=> 0,   //Importe total de tributos
+            'MonId' 	=> 'PES', //Tipo de moneda usada en el comprobante (ver tipos disponibles)('PES' para pesos argentinos) 
+            'MonCotiz' 	=> 1,     // Cotización de la moneda usada (1 para pesos argentinos)  
+            'Iva' 		=> array( // (Opcional) Alícuotas asociadas al comprobante
+                array(
+                    'Id' 		=> 5, // Id del tipo de IVA (5 para 21%)(ver tipos disponibles) 
+                    'BaseImp' 	=> $ImpNeto, // Base imponible
+                    'Importe' 	=> $ImpIVA // Importe 
+                )
+            ), 
+        );
+        
+        $res = $afip->ElectronicBilling->CreateVoucher($data);
+        
+        $cae=$res['CAE']; //CAE asignado el comprobante
+        $vtocae = $res['CAEFchVto']; //Fecha de vencimiento del CAE (yyyy-mm-dd)
+    
+    
+        }
+
+       
        
        
        
@@ -119,7 +293,7 @@ class VentaController extends Controller
            DB::beginTransaction();
 
            $venta=  new Venta();
-           $venta->idcliente = request('idcliente');
+           $venta->idcliente = request('idcliente2');
            $venta->idusuario = auth()->id();
            $venta->tipo_comprobante = request('tipo_comprobante');
            $venta->num_comprobante = str_pad($numComp, 8, "0", STR_PAD_LEFT); 
@@ -158,15 +332,17 @@ class VentaController extends Controller
        }
        
        Session::flash('success', 'Venta Creada');
-       return redirect('venta');
+       return redirect('/venta');
     }
 
     public function show($id, Request $request)
     {
+        $tiendas=DB::table('datos_tienda')->where('id','=','1')->get();
+       
         $venta = DB::table('venta as v')
         ->join('persona as p','v.idcliente', '=','p.id')
         ->join('detalle_venta as dv','v.id', '=','dv.idventa')
-        ->select('v.id', 'v.fecha', 'p.nombre',
+        ->select('v.id', 'v.fecha', 'p.nombre', 'p.tipo', 'p.num_documento', 'p.direccion', 'p.telefono',
         'v.tipo_comprobante', 'v.num_comprobante', 'v.impuesto', 
          'v.total', 'v.cae', 'v.vtocae')
         ->where('v.id','=',$id)
@@ -179,7 +355,7 @@ class VentaController extends Controller
             ->get();
 
 
-        return view ('venta.show', ["venta"=>$venta, "detalles"=>$detalles]);
+        return view ('venta.show', ["tiendas"=>$tiendas, "venta"=>$venta, "detalles"=>$detalles]);
       
     }
     public function destroy($id)

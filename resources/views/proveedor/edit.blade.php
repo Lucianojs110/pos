@@ -14,8 +14,14 @@
 </div>
 @endif
 
-    <div class="container p-3 my-3 border" style="background-color: #fff">
-    <h2>Editar cliente: {{$persona->nombre}} </h2>
+    
+<div class="card" style="background-color: #fff">
+    <div class="card-header bg-info mb-3">
+    <h3>Editar Proveedor: {{$persona->nombre}}</h3>
+    </div>
+ <div class="container p-2 my-2"> 
+  
+    
     <form action="{{ route('proveedor.update', $persona->id) }}" method="POST" enctype="multipart/form-data">
     @method('PATCH')
     @csrf
@@ -80,6 +86,7 @@
      <button type="reset" class="btn btn-danger">Cancelar</button>
      <a href="{{url('cliente')}}" class="btn btn-secondary">Volver</a>
     </form>
+    </div>
     </div>
 
     @endsection

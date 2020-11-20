@@ -15,11 +15,16 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.js"></script>
     @stack('scripts')
     <script src="https:////cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"defer></script>
+
+    <script src="https://cdn.datatables.net/rowreorder/1.2.7/js/dataTables.rowReorder.min.js"defer></script>
+    <script src="https://cdn.datatables.net/responsive/2.2.5/js/dataTables.responsive.min.js"defer></script>
     <script src="{{ asset('dist/js/adminlte.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.7/dist/js/bootstrap-select.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.min.js"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jQuery.print/1.6.0/jQuery.print.js"></script>
+
+
    
     <!-- Font Awesome Icons -->
     <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
@@ -34,6 +39,8 @@
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <link href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.7/dist/css/bootstrap-select.min.css" rel="stylesheet" >
+    <link href="https://cdn.datatables.net/rowreorder/1.2.7/css/rowReorder.dataTables.min.css">
+    <link href="https://cdn.datatables.net/responsive/2.2.5/css/responsive.dataTables.min.css">
 </head>
 
 <body class="hold-transition sidebar-mini layout-fixed">
@@ -57,7 +64,7 @@
                                 <a class="nav-link" href="{{ route('login') }}">{{ __('Iniciar Sesión') }}</a>
                                 @else
                                 <div class="image">
-                               <img  src="{{asset('imagenes/'.Auth::user()->imagen)}}" class="img-circle elevation-2" alt="User Image" style="padding-left:10px">
+                               <img  src="{{asset('imagenes/'.Auth::user()->imagen)}}" class="img-circle elevation-2" alt="User Image" >
                                 </div>
                                 {{ Auth::user()->name }}
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST"
@@ -95,7 +102,7 @@
                         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                             data-accordion="false">
                             <li class="nav-item">
-                                <a href="/" class="{{ Request::path() === '/' ? 'nav-link' : 'nav-link' }}">
+                                <a href="/" class="{{ Request::path() === '/' ? 'nav-link active' : 'nav-link' }}">
                                     <i class="nav-icon fas fa-home"></i>
                                     <p>Inicio</p>
                                 </a>
@@ -103,7 +110,7 @@
                             @can('administrador')
                             <li class="nav-item ">
                                 <a href="{{url('usuarios')}}"
-                                    class="{{ Request::path() === 'usuarios' ? 'nav-link' : 'nav-link' }}">
+                                    class="{{ Request::path() === 'usuarios' ? 'nav-link active' : 'nav-link' }}">
                                     <i class="nav-icon fas fa-users"></i>
                                     <p>
                                         Usuarios
@@ -234,5 +241,6 @@
    toastr.options.positionClass = "toast-bottom-right";
        toastr.success("{{Session::get('warning')}}")
    @endif
- 
+
+  
 </script>

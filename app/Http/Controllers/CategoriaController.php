@@ -6,7 +6,7 @@ use App\Categoria;
 use Illuminate\Http\Request;
 use App\Http\Requests\CategoriaFormRequest;
 use DataTables;
-use Session;
+
 
 class CategoriaController extends Controller
 {
@@ -43,7 +43,7 @@ class CategoriaController extends Controller
        $categoria->descripcion = request('descripcion');
        $categoria->update();
        Session::flash('success', 'Categoria Actualizada con exito');
-       return redirect('categoria');
+       return redirect('/categoria');
     }
 
     public function store (CategoriaFormRequest $request)
@@ -56,7 +56,8 @@ class CategoriaController extends Controller
        
         $categoria->save();
         Session::flash('success', 'Categoria Creada con exito');
-        return redirect('categoria');
+        return redirect('/categoria');
+       
     }
 
     public function destroy($id)
